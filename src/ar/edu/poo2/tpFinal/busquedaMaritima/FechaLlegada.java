@@ -1,7 +1,9 @@
-package ar.edu.poo2.tpFinal;
+package ar.edu.poo2.tpFinal.busquedaMaritima;
 
 import java.util.Date;
 import java.util.function.Predicate;
+
+import ar.edu.poo2.tpFinal.Viaje;
 
 public class FechaLlegada extends FechaCondicion {
 	

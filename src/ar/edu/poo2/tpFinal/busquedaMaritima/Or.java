@@ -1,4 +1,6 @@
-package ar.edu.poo2.tpFinal;
+package ar.edu.poo2.tpFinal.busquedaMaritima;
+
+import ar.edu.poo2.tpFinal.Viaje;
 
 public class Or implements BusquedaMaritima{
 
