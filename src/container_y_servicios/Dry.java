@@ -1,4 +1,4 @@
-package ar.edu.poo2.tpFinal;
+package container_y_servicios;
 
 public class Dry extends Container {
 
