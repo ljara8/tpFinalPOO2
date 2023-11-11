@@ -1,7 +1,7 @@
 package ar.edu.poo2.tpFinal;
 
-import container_y_servicios.Container;
-import container_y_servicios.Refeer;
+import ar.edu.poo2.tpFinal.contyserv.Container;
+import ar.edu.poo2.tpFinal.contyserv.Refeer;
 
 public abstract class Orden {
 	private Container cont;

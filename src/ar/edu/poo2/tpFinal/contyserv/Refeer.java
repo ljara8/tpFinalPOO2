@@ -1,4 +1,4 @@
-package container_y_servicios;
+package ar.edu.poo2.tpFinal.contyserv;
 
 public class Refeer extends Container{
 	public Refeer(int a, int l, int alt, double p, double kw) {
