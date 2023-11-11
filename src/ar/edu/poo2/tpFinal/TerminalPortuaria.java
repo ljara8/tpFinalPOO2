@@ -3,6 +3,9 @@ package ar.edu.poo2.tpFinal;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
+import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
+
 public class TerminalPortuaria {
 
 	private BusquedaMaritima criterio;

@@ -1,6 +1,6 @@
 package ar.edu.poo2.tpFinal.contyserv;
 
-import ar.edu.poo2.tpFinal.Orden;
+import ar.edu.poo2.tpFinal.ordenes.Orden;
 
 public class Excedente extends Servicio {
 

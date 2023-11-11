@@ -1,6 +1,6 @@
 package ar.edu.poo2.tpFinal.contyserv;
 
-import ar.edu.poo2.tpFinal.Orden;
+import ar.edu.poo2.tpFinal.ordenes.Orden;
 
 public class Lavado extends Servicio {
 	private double costoFijo;
@@ -15,7 +15,7 @@ public class Lavado extends Servicio {
 	}
 
 	public boolean superaLaCapacidad() {
-		return this.getContainer().getVolumen() >= 70;
+		return this.getContainer().calcularVolumen() >= 70;
 	}
 
 }

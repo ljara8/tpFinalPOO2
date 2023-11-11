@@ -7,6 +7,10 @@ public class Container {
 	private double peso;
 
 	public Container(int a, int l, int alt, double p) {
+		this.ancho = a;
+		this.largo = l;
+		this.altura = alt;
+		this.peso = p;
 	}
 
 	public double getPeso() {
@@ -28,7 +32,7 @@ public class Container {
 		return ancho;
 	}
 
-	public int getVolumen() {
+	public int calcularVolumen() {
 		return this.getAltura() * this.getAncho() * this.getLargo();
 	}
 	
