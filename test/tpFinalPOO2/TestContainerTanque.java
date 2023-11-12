@@ -8,16 +8,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import ar.edu.poo2.tpFinal.contyserv.Dry;
+import ar.edu.poo2.tpFinal.contyserv.Tanque;
 
-class TestContainerDry {
+class TestContainerTanque {
 	@Mock
-	private Dry containerDry;
+	private Tanque containerTanque;
 	private int volumenPromedio;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		containerDry = mock(Dry.class);
+		containerTanque = mock(Tanque.class);
 		volumenPromedio = 5000;
 
 	}
@@ -25,33 +25,33 @@ class TestContainerDry {
 	@Test
 	void testVolumenContainerMenorAPromedio() {
 		//configuration
-		when(containerDry.calcularVolumen()).thenReturn(4000);
+		when(containerTanque.calcularVolumen()).thenReturn(4000);
 		
 		
 		
-		assertTrue(containerDry.calcularVolumen() < volumenPromedio );
+		assertTrue(containerTanque.calcularVolumen() < volumenPromedio );
 		
 	}
 
 	@Test
 	void testVolumenContainerMayorAPromedio() {
 		//configuration
-		when(containerDry.calcularVolumen()).thenReturn(6000);
+		when(containerTanque.calcularVolumen()).thenReturn(6000);
 		
 		
 		
-		assertTrue(containerDry.calcularVolumen() > volumenPromedio );
+		assertTrue(containerTanque.calcularVolumen() > volumenPromedio );
 		
 	}
 
 	@Test
 	void testVolumenContainerIgualrAPromedio() {
 		//configuration
-		when(containerDry.calcularVolumen()).thenReturn(5000);
+		when(containerTanque.calcularVolumen()).thenReturn(5000);
 		
 		
 		
-		assertTrue(containerDry.calcularVolumen() == volumenPromedio );
+		assertTrue(containerTanque.calcularVolumen() == volumenPromedio );
 		
 	}
 }

@@ -19,6 +19,7 @@ public abstract class Orden {
 	private Chofer chofer;
 	private Viaje viajeActual;
 	private List<Servicio> serviciosContratados = new ArrayList<Servicio>();
+	private int horasDeDemora;
 
 	Orden(Cliente client, Container cont, Camion cam, Chofer chofer, Viaje viaje) {
 		this.cliente = client;
@@ -32,6 +33,11 @@ public abstract class Orden {
 		return 0;
 	}
 
+	public int getHorasDeDemora() {
+		return horasDeDemora;
+
+	}
+
 	public abstract Factura getFactura();
 
 	public Object getContainer() {
@@ -41,8 +47,6 @@ public abstract class Orden {
 	public List<Servicio> getServiciosContratados() {
 		return serviciosContratados;
 	}
-	
-	
 
 	public Cliente getCliente() {
 		return cliente;
