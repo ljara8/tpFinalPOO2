@@ -14,33 +14,33 @@ import org.junit.Test;
 
 import ar.edu.poo2.tpFinal.Viaje;
 
-public class FechaLlegadaTest {
+public class FechaSalidaTest {
 
 	private Predicate<Date> condicionFecha;
 	private Viaje viaje;
 	private Date date;
-	private FechaLlegada fechaLlegada;
+	private FechaSalida fechaSalida;
 	
 	@Before
 	public void setup() {
 		condicionFecha = mock(Predicate.class);
 		viaje = mock(Viaje.class);
 		date = mock(Date.class);
-		fechaLlegada = new FechaLlegada(condicionFecha);
+		fechaSalida = new FechaSalida(condicionFecha);
 	}
 	
 	@Test
 	public void testNegativeEvaluateFromFalsePredicate() {
 		when(viaje.getFechaLlegada()).thenReturn(date);
 		when(condicionFecha.test(any())).thenReturn(false);
-		assertFalse(fechaLlegada.evaluar(viaje));
+		assertFalse(fechaSalida.evaluar(viaje));
 	}
 	
 	@Test
 	public void testPositiveEvaluateFromPositivePredicate() {
 		when(viaje.getFechaLlegada()).thenReturn(date);
 		when(condicionFecha.test(any())).thenReturn(true);
-		assertTrue(fechaLlegada.evaluar(viaje));
+		assertTrue(fechaSalida.evaluar(viaje));
 	}
 	
 }
