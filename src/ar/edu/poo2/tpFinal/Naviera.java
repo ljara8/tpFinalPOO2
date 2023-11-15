@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ar.edu.poo2.tpFinal.seleccionadorCircuito.CircuitoMaritimo;
+
 public class Naviera {
 	private List<Buque> buques = new ArrayList<Buque>();
 	private List<CircuitoMaritimo> circuitos = new ArrayList<CircuitoMaritimo>();
