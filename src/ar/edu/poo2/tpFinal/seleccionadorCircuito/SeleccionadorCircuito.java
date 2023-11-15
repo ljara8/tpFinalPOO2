@@ -9,5 +9,5 @@ public abstract class SeleccionadorCircuito {
 				.orElseThrow(() -> new IllegalArgumentException("La lista de circuitos no debe ser vacía."));
 	}
 	
-	public abstract CircuitoMaritimo mejorCircuitoBinario(CircuitoMaritimo primerCircuito, CircuitoMaritimo segundoCircuito);
+	protected abstract CircuitoMaritimo mejorCircuitoBinario(CircuitoMaritimo primerCircuito, CircuitoMaritimo segundoCircuito);
 }
