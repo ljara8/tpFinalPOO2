@@ -26,12 +26,12 @@ public class Tramo {
 	public double getPrecio() {
 		return precio;
 	}
-	
-	public void setPrecio(double precio) {
-		this.precio = precio;
-	}
 
 	public int getTiempo() {
 		return tiempo;
+	}
+	
+	public boolean tieneTerminal(TerminalPortuaria terminal) {
+		return origen == terminal || destino == terminal;
 	}
 }
