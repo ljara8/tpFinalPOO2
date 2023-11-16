@@ -1,4 +1,4 @@
-package ar.edu.poo2.tpFinal;
+package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
 import java.util.LinkedList;
 
@@ -10,7 +10,7 @@ public class CircuitoMaritimo {
 		//cuando se crea un nuevo circuito se inicializa con un tramo origen
 		this.tramos.add(new Tramo(origen, destino, precio, tiempo));
 	}
-	
+
 	public TerminalPortuaria getOrigen() throws Exception {
 		this.verificarSiHayTramos();
 		return tramos.getFirst().getOrigen();
@@ -45,8 +45,7 @@ public class CircuitoMaritimo {
 		return tramos.size() + 1;
 	}
 	
-	public boolean tieneTerminalEnTrayecto(TerminalPortuaria terminal) throws Exception{
-		this.verificarSiHayTramos();
+	public boolean tieneTerminalEnTrayecto(TerminalPortuaria terminal) {
 		return tramos.stream().anyMatch(t->t.tieneTerminal(terminal));
 	}
 	
@@ -56,12 +55,13 @@ public class CircuitoMaritimo {
 	}
 	
 	public int tiempoDeLlegadaEntre(TerminalPortuaria origen, TerminalPortuaria destino) {
-		return tramos.stream().filter(t->t.getOrigen().equals(origen))
-				.takeWhile(t->!t.getDestino().equals(destino)).mapToInt(t->t.getTiempo()).sum();
-	}
+		return tramos.stream().dropWhile(t->!t.getOrigen().equals(origen))
+				.takeWhile(t->!t.getOrigen().equals(destino))
+				.mapToInt(t->t.getTiempo()).sum()
+;	}
 	
 	private void verificarSiHayTramos() throws Exception {
-		if(!tramos.isEmpty()) {
+		if(tramos.isEmpty()) {
 			throw new Exception ("No hay tramos en el circuito");
 		}
 	}

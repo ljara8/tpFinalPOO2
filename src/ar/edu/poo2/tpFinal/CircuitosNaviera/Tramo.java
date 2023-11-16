@@ -1,4 +1,4 @@
-package ar.edu.poo2.tpFinal;
+package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
 public class Tramo {
 	
