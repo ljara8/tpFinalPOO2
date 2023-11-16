@@ -1,6 +1,7 @@
 package tpFinalPOO2tpFinal;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,15 +17,17 @@ class CircuitoMaritimoTest {
 	private TerminalPortuaria terceraTerminal;
 	private TerminalPortuaria cuartaTerminal;
 	private TerminalPortuaria quintaTerminal;
+	private TerminalPortuaria sextaTerminal;
 	
 	@BeforeEach
 	public void setUp() throws Exception {
 
-		primeraTerminal = new TerminalPortuaria();
-		segundaTerminal = new TerminalPortuaria();
-		terceraTerminal = new TerminalPortuaria();
-		cuartaTerminal = new TerminalPortuaria();
-		quintaTerminal = new TerminalPortuaria();
+		primeraTerminal = mock(TerminalPortuaria.class);
+		segundaTerminal = mock(TerminalPortuaria.class);
+		terceraTerminal = mock(TerminalPortuaria.class);
+		cuartaTerminal = mock(TerminalPortuaria.class);
+		quintaTerminal = mock(TerminalPortuaria.class);
+		sextaTerminal = mock(TerminalPortuaria.class);
 		circuito = new CircuitoMaritimo(primeraTerminal, segundaTerminal, 300, 2);
 		circuito.agregarTramoHacia(terceraTerminal, 200, 1);
 		circuito.agregarTramoHacia(cuartaTerminal, 400, 3);
@@ -58,6 +61,7 @@ class CircuitoMaritimoTest {
 	@Test
 	void testTiempoDeLlegadaEntreTerminales() throws Exception{
 		
-		assertEquals(6, circuito.tiempoDeLlegadaEntre(segundaTerminal, quintaTerminal));
+			assertEquals(6, circuito.tiempoDeLlegadaEntre(segundaTerminal, quintaTerminal));
+		
 	}
 }

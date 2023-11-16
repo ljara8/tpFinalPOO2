@@ -7,11 +7,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry kind="lib" path="C:/Users/gabim/OneDrive/Escritorio/Facultad/Programacion con Objetos 2/Archivos Jar/byte-buddy-1.10.18.jar"/>
-	<classpathentry kind="lib" path="C:/Users/gabim/OneDrive/Escritorio/Facultad/Programacion con Objetos 2/Archivos Jar/byte-buddy-agent-1.10.15.jar"/>
-	<classpathentry kind="lib" path="C:/Users/gabim/OneDrive/Escritorio/Facultad/Programacion con Objetos 2/Archivos Jar/mockito-core-3.6.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/gabim/OneDrive/Escritorio/Facultad/Programacion con Objetos 2/Archivos Jar/mockito-inline-3.6.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/gabim/OneDrive/Escritorio/Facultad/Programacion con Objetos 2/Archivos Jar/objenesis-3.1.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/gabim/OneDrive/Escritorio/Facultad/Programacion con Objetos 2/Archivos Jar/byte-buddy-1.10.18.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/gabim/OneDrive/Escritorio/Facultad/Programacion con Objetos 2/Archivos Jar/byte-buddy-agent-1.10.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/gabim/OneDrive/Escritorio/Facultad/Programacion con Objetos 2/Archivos Jar/mockito-core-3.6.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/gabim/OneDrive/Escritorio/Facultad/Programacion con Objetos 2/Archivos Jar/mockito-inline-3.6.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/gabim/OneDrive/Escritorio/Facultad/Programacion con Objetos 2/Archivos Jar/objenesis-3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

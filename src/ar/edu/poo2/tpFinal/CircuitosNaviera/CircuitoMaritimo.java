@@ -54,11 +54,14 @@ public class CircuitoMaritimo {
 				.anyMatch(t->t.getDestino().equals(destino));
 	}
 	
-	public int tiempoDeLlegadaEntre(TerminalPortuaria origen, TerminalPortuaria destino) {
-		return tramos.stream().dropWhile(t->!t.getOrigen().equals(origen))
+	public int tiempoDeLlegadaEntre(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
+		if(this.tieneTrayectoEntreTerminales(origen, destino)) {
+			return tramos.stream().dropWhile(t->!t.getOrigen().equals(origen))
 				.takeWhile(t->!t.getOrigen().equals(destino))
-				.mapToInt(t->t.getTiempo()).sum()
-;	}
+				.mapToInt(t->t.getTiempo()).sum();	
+		}
+		else throw new Exception("No hay trayecto entre estas terminales");
+	}
 	
 	private void verificarSiHayTramos() throws Exception {
 		if(tramos.isEmpty()) {
