@@ -10,20 +10,21 @@ public class CircuitoMaritimo {
 		//cuando se crea un nuevo circuito se inicializa con un tramo origen
 		this.tramos.add(new Tramo(origen, destino, precio, tiempo));
 	}
-
-	public TerminalPortuaria getOrigen() throws Exception {
-		this.verificarSiHayTramos();
+	
+	public LinkedList<Tramo> getTramos(){
+		return this.tramos;
+	}
+	
+	public TerminalPortuaria getOrigen() {
 		return tramos.getFirst().getOrigen();
 	}
 		
-	public TerminalPortuaria getDestino() throws Exception {
-		this.verificarSiHayTramos();
+	public TerminalPortuaria getDestino() {
 		return tramos.getLast().getDestino();
 	}
 	
-	public void agregarTramoHacia(TerminalPortuaria destino, double precio, int tiempo) throws Exception {
+	public void agregarTramoHacia(TerminalPortuaria destino, double precio, int tiempo) {
 		//el circuito no debe estar vacio previamente
-		this.verificarSiHayTramos();
 		this.tramos.add(new Tramo(this.getDestino(), destino, precio, tiempo));
 	}
 

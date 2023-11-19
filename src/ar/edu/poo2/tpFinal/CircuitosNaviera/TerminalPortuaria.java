@@ -3,15 +3,15 @@ package ar.edu.poo2.tpFinal.CircuitosNaviera;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.poo2.tpFinal.BusquedaMaritima;
+import ar.edu.poo2.tpFinal.busquedaMaritima.BusquedaMaritima;
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
 import ar.edu.poo2.tpFinal.Consignee;
 import ar.edu.poo2.tpFinal.EmpresaTransportista;
 import ar.edu.poo2.tpFinal.EntregaTerrestre;
-import ar.edu.poo2.tpFinal.OrdenExportacion;
-import ar.edu.poo2.tpFinal.OrdenImportacion;
-import ar.edu.poo2.tpFinal.SeleccionadorCircuito;
+import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
+import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
+import ar.edu.poo2.tpFinal.seleccionadorCircuito.SeleccionadorCircuito;
 import ar.edu.poo2.tpFinal.Shipper;
 
 public class TerminalPortuaria {

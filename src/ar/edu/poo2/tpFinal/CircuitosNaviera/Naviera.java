@@ -1,41 +1,55 @@
 package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import ar.edu.poo2.tpFinal.Buque;
-import ar.edu.poo2.tpFinal.Viaje;
 
 public class Naviera {
-	private List<Buque> buques = new ArrayList<Buque>();
-	private List<CircuitoMaritimo> circuitos = new ArrayList<CircuitoMaritimo>();
-	private List<Viaje> viajes = new ArrayList<Viaje>(); // este no recuerdo si lo ibamos a implementar
+	private List<Buque> buques;
+	private List<CircuitoMaritimo> circuitos;
+	private List<Viaje> viajes;
 
+	public Naviera() {
+		this.buques =  new ArrayList<Buque>();
+		this.circuitos = new ArrayList<CircuitoMaritimo>();
+		this.viajes = new ArrayList<Viaje>();
+	}
+	
+	public List<Buque> getBuques(){
+		return this.buques;
+	}
+	
+	public List<CircuitoMaritimo> getCircuitos(){
+		return this.circuitos;
+	}
+	
+	public List<Viaje> getViajes(){
+		return this.viajes;
+	}
+	
+	public void agregarNuevoViaje(CircuitoMaritimo circuito, Buque buque, LocalDate fechaSalida) {
+		this.viajes.add(new Viaje(circuito, buque, fechaSalida));
+	}
+	
+	public void agregarCircuito(CircuitoMaritimo circuito) {
+		this.circuitos.add(circuito);
+	}
+	
 	public boolean tieneCircuitoConTerminal(TerminalPortuaria terminal) {
 		return this.circuitos.stream().anyMatch(c->c.tieneTerminalEnTrayecto(terminal));
 	}
 	
 	public int cuantoTardaEnLlegarNaviera(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception{
 		return this.circuitos.stream().filter(c->c.tieneTrayectoEntreTerminales(origen, destino))
-				.findAny().get().tiempoDeLlegadaEntre(origen, destino);
-		
-		
+				.findFirst().get()
+				.tiempoDeLlegadaEntre(origen, destino);
 	}
 
-	/*private void verificarSiHayTrayectoEntreTerminales(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception{
-		if(!this.circuitos.stream().anyMatch(c->c.tieneTrayectoEntreTerminales(origen, destino))) {
-			throw new Exception("No hay trayecto entre terminales");
-		}
-		*/
-		
-		
-		
-	
-	
-
-//	public Date proximaFechaDePartidaParaBuqueADestino(Buque buque, TerminalPortuaria origen, TerminalPortuaria destino)
-	//	return 
-	
-
+	public LocalDate proximaFechaDePartidaADestino(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception{
+	return this.viajes.stream().filter(v->v.tieneTrayectoEntre(origen, destino))
+			.findFirst().get()
+			.fechaLlegadaATerminal(destino);
+	}
 }

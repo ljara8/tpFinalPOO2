@@ -1,10 +1,11 @@
 package tpFinalPOO2tpFinal;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 
 import ar.edu.poo2.tpFinal.CircuitosNaviera.CircuitoMaritimo;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.TerminalPortuaria;
@@ -56,6 +57,12 @@ class CircuitoMaritimoTest {
 	void testTieneTrayectoEntreTerminales() {
 		
 		assertTrue(circuito.tieneTrayectoEntreTerminales(segundaTerminal, terceraTerminal));
+	}
+	
+	@Test
+	void testNoTieneTrayectoEntreTerminales() {
+		
+		assertFalse(circuito.tieneTrayectoEntreTerminales(primeraTerminal, sextaTerminal));
 	}
 	
 	@Test
