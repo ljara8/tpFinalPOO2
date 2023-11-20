@@ -3,6 +3,12 @@ package ar.edu.poo2.tpFinal;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.poo2.tpFinal.busquedaMaritima.BusquedaMaritima;
+import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
+import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
+import ar.edu.poo2.tpFinal.seleccionadorCircuito.CircuitoMaritimo;
+import ar.edu.poo2.tpFinal.seleccionadorCircuito.SeleccionadorCircuito;
+
 
 public class TerminalPortuaria {
 
@@ -17,6 +23,7 @@ public class TerminalPortuaria {
 	private List<CircuitoMaritimo> circuitos = new ArrayList<CircuitoMaritimo>();
 	private List<OrdenExportacion> ordenExportaciones = new ArrayList<OrdenExportacion>();
 	private List<OrdenImportacion> ordenImportaciones = new ArrayList<OrdenImportacion>();
+	private double costoElectricidadPorhora; 
 
 	public void registrarNaviera(Naviera n) {
 		navieras.add(n);
@@ -87,6 +94,10 @@ public class TerminalPortuaria {
 
 	public List<OrdenImportacion> getOrdenImportaciones() {
 		return ordenImportaciones;
+	}
+
+	public double getCostoElectricidadPorhora() {
+		return costoElectricidadPorhora;
 	}
 
 }
