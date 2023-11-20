@@ -1,17 +1,18 @@
-package ar.edu.poo2.tpFinal;
+package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
 public class Tramo {
 	
-	private double precio;
-	private int tiempo;
 	private TerminalPortuaria origen;
 	private TerminalPortuaria destino;
+	private double precio;
+	private int tiempo;
 	
-	public Tramo(double precio, int tiempo, TerminalPortuaria origen, TerminalPortuaria destino) {
-		this.precio = precio;
-		this.tiempo = tiempo;
+	
+	public Tramo(TerminalPortuaria origen, TerminalPortuaria destino, double precio, int tiempo) {
 		this.origen = origen;
 		this.destino = destino;
+		this.precio = precio;
+		this.tiempo = tiempo;
 	}
 
 	public TerminalPortuaria getOrigen() {
@@ -25,9 +26,12 @@ public class Tramo {
 	public double getPrecio() {
 		return precio;
 	}
-	
+
 	public int getTiempo() {
 		return tiempo;
 	}
 	
+	public boolean tieneTerminal(TerminalPortuaria terminal) {
+		return origen == terminal || destino == terminal;
+	}
 }

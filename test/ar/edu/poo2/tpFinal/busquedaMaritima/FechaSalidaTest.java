@@ -6,26 +6,27 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.function.Predicate;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import ar.edu.poo2.tpFinal.Viaje;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
 
 public class FechaSalidaTest {
 
-	private Predicate<Date> condicionFecha;
+	private Predicate<LocalDate> condicionFecha;
 	private Viaje viaje;
-	private Date date;
+	private LocalDate date;
 	private FechaSalida fechaSalida;
 	
 	@Before
 	public void setup() {
 		condicionFecha = mock(Predicate.class);
 		viaje = mock(Viaje.class);
-		date = mock(Date.class);
+		date = mock(LocalDate.class);
 		fechaSalida = new FechaSalida(condicionFecha);
 	}
 	

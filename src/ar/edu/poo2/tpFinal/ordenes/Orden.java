@@ -7,7 +7,7 @@ import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
 import ar.edu.poo2.tpFinal.Cliente;
 import ar.edu.poo2.tpFinal.Factura;
-import ar.edu.poo2.tpFinal.Viaje;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
 import ar.edu.poo2.tpFinal.contyserv.Container;
 import ar.edu.poo2.tpFinal.contyserv.Refeer;
 import ar.edu.poo2.tpFinal.contyserv.Servicio;

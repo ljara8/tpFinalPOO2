@@ -8,8 +8,8 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
-import ar.edu.poo2.tpFinal.TerminalPortuaria;
-import ar.edu.poo2.tpFinal.Viaje;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.TerminalPortuaria;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
 
 public class PuertoDestinoTest {
 

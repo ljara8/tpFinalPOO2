@@ -2,8 +2,8 @@ package ar.edu.poo2.tpFinal.seleccionadorCircuito;
 
 import java.util.LinkedList;
 
-import ar.edu.poo2.tpFinal.TerminalPortuaria;
-import ar.edu.poo2.tpFinal.Tramo;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.TerminalPortuaria;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.Tramo;
 
 public class CircuitoMaritimo {
 	

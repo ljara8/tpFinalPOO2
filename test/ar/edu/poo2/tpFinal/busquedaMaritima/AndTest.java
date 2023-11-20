@@ -9,6 +9,9 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
+import ar.edu.poo2.tpFinal.busquedaMaritima.And;
+import ar.edu.poo2.tpFinal.busquedaMaritima.BusquedaMaritima;
+
 public class AndTest {
 	
 	private And and;
