@@ -4,7 +4,7 @@ import ar.edu.poo2.tpFinal.Camion;
 
 import ar.edu.poo2.tpFinal.Chofer;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.*;
-import ar.edu.poo2.tpFinal.Clientes.Consignee;
+import ar.edu.poo2.tpFinal.clientes.Consignee;
 import ar.edu.poo2.tpFinal.contyserv.Container;
 
 public class OrdenImportacion extends Orden {

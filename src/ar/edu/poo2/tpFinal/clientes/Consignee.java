@@ -1,4 +1,4 @@
-package ar.edu.poo2.tpFinal.Clientes;
+package ar.edu.poo2.tpFinal.clientes;
 
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;

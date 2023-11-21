@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.poo2.tpFinal.Clientes.Consignee;
+import ar.edu.poo2.tpFinal.clientes.Consignee;
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
 
@@ -71,7 +71,7 @@ class testConsignee {
 	void testGetNombre() {
 		when(consignee.nombreCompleto()).thenReturn(nombre);
 		
-		assertNotEquals(nombre, consignee.nombreCompleto());
+		assertEquals(nombre, consignee.nombreCompleto());
 	}
 
 	@Test 

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
-import ar.edu.poo2.tpFinal.Clientes.Cliente;
+import ar.edu.poo2.tpFinal.clientes.Cliente;
 
 public class Turno {
 	private OrdenExportacion orden;

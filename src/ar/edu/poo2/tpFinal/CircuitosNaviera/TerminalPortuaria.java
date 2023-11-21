@@ -7,6 +7,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import ar.edu.poo2.tpFinal.busquedaMaritima.BusquedaMaritima;
+import ar.edu.poo2.tpFinal.clientes.Cliente;
+import ar.edu.poo2.tpFinal.clientes.Consignee;
+import ar.edu.poo2.tpFinal.clientes.Shipper;
 import ar.edu.poo2.tpFinal.Buque;
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
@@ -18,9 +21,6 @@ import ar.edu.poo2.tpFinal.ordenes.Orden;
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
 import ar.edu.poo2.tpFinal.seleccionadorCircuito.SeleccionadorCircuito;
-import ar.edu.poo2.tpFinal.Clientes.Cliente;
-import ar.edu.poo2.tpFinal.Clientes.Consignee;
-import ar.edu.poo2.tpFinal.Clientes.Shipper;
 
 public class TerminalPortuaria {
 

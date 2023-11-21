@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.poo2.tpFinal.Clientes.*;
+import ar.edu.poo2.tpFinal.clientes.*;
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
 
@@ -74,7 +74,7 @@ class testShipper {
 	void testGetNombre() {
 		when(shipper.nombreCompleto()).thenReturn(nombre);
 		
-		assertNotEquals(nombre, shipper.nombreCompleto());
+		assertEquals(nombre, shipper.nombreCompleto());
 	}
 
 	@Test 
