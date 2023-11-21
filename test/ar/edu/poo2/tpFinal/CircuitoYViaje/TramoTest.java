@@ -1,4 +1,4 @@
-package tpFinalPOO2tpFinal;
+package ar.edu.poo2.tpFinal.CircuitoYViaje;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,6 +1,6 @@
 package ar.edu.poo2.tpFinal.ordenes;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;	
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
-import ar.edu.poo2.tpFinal.Cliente;
+import ar.edu.poo2.tpFinal.Clientes.*;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.*;
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.Turno;
