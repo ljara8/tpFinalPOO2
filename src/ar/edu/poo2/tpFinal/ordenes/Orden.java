@@ -7,11 +7,11 @@ import java.util.List;
 
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
-import ar.edu.poo2.tpFinal.Cliente;
-import ar.edu.poo2.tpFinal.Consignee;
-import ar.edu.poo2.tpFinal.Shipper;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.TerminalPortuaria;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
+import ar.edu.poo2.tpFinal.Clientes.Cliente;
+import ar.edu.poo2.tpFinal.Clientes.Consignee;
+import ar.edu.poo2.tpFinal.Clientes.Shipper;
 import ar.edu.poo2.tpFinal.contyserv.Container;
 import ar.edu.poo2.tpFinal.contyserv.Refeer;
 import ar.edu.poo2.tpFinal.contyserv.Servicio;

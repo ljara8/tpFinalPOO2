@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
-import ar.edu.poo2.tpFinal.Cliente;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.*;
+import ar.edu.poo2.tpFinal.Clientes.Cliente;
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.Turno;
 

@@ -10,8 +10,6 @@ import ar.edu.poo2.tpFinal.busquedaMaritima.BusquedaMaritima;
 import ar.edu.poo2.tpFinal.Buque;
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
-import ar.edu.poo2.tpFinal.Cliente;
-import ar.edu.poo2.tpFinal.Consignee;
 import ar.edu.poo2.tpFinal.EmpresaTransportista;
 import ar.edu.poo2.tpFinal.EntregaTerrestre;
 import ar.edu.poo2.tpFinal.Mail;
@@ -20,7 +18,9 @@ import ar.edu.poo2.tpFinal.ordenes.Orden;
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
 import ar.edu.poo2.tpFinal.seleccionadorCircuito.SeleccionadorCircuito;
-import ar.edu.poo2.tpFinal.Shipper;
+import ar.edu.poo2.tpFinal.Clientes.Cliente;
+import ar.edu.poo2.tpFinal.Clientes.Consignee;
+import ar.edu.poo2.tpFinal.Clientes.Shipper;
 
 public class TerminalPortuaria {
 

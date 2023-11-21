@@ -52,7 +52,7 @@ public class CircuitoMaritimo {
 				.anyMatch(t -> t.getDestino().equals(destino));
 	}
 
-	public int tiempoDeLlegadaEntre(TerminalPortuaria origen, TerminalPortuaria destino) {
+	public int tiempoDeLlegadaEntre(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
 		if (this.tieneTrayectoEntreTerminales(origen, destino)) {
 			return tramos.stream().dropWhile(t -> !t.getOrigen().equals(origen))
 					.takeWhile(t -> !t.getOrigen().equals(destino)).mapToInt(t -> t.getTiempo()).sum();
