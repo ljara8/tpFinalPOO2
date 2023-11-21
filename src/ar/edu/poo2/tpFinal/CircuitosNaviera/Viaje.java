@@ -47,4 +47,8 @@ public class Viaje {
 	public LocalDate fechaLlegadaATerminal(TerminalPortuaria terminal) throws Exception {
 		return this.cronograma.fechaLlegadaATerminal(terminal);
 	}
+
+	public CircuitoMaritimo getCircuito() {
+		return circuito;
+	}
 }
