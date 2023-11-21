@@ -20,12 +20,12 @@ public class Viaje {
 		return this.buque;
 	}
 	
-	public LocalDate getFechaSalida() {
-		return this.cronograma.getFechaSalida();
-	}
-		
 	public CronogramaViaje getCronograma() {
 		return this.cronograma;
+	}
+	
+	public LocalDate getFechaSalida() {
+		return this.cronograma.getFechaSalida();
 	}
 	
 	public LocalDate getFechaLlegada() {

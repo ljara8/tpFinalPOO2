@@ -2,6 +2,7 @@ package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 public class CronogramaViaje {
 	
@@ -34,7 +35,8 @@ public class CronogramaViaje {
 	public LocalDate fechaLlegadaATerminal(TerminalPortuaria terminal) throws Exception {
 		return this.arribos.stream().filter(a->a.getDestino().equals(terminal))
 				.findFirst()
-				.map(a->a.getFechaDeArribo()).orElseThrow(() -> new Exception("No se encuentra la terminal solicitada"));
+				.map(a->a.getFechaDeArribo())
+				.orElseThrow(() -> new NoSuchElementException("No se encuentra la terminal solicitada"));
 	} 
 
 

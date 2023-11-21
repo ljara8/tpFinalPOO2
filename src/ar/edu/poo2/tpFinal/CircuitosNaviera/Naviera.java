@@ -3,6 +3,7 @@ package ar.edu.poo2.tpFinal.CircuitosNaviera;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import ar.edu.poo2.tpFinal.Buque;
 
@@ -29,8 +30,8 @@ public class Naviera {
 		return this.viajes;
 	}
 	
-	public void agregarNuevoViaje(CircuitoMaritimo circuito, Buque buque, LocalDate fechaSalida) {
-		this.viajes.add(new Viaje(circuito, buque, fechaSalida));
+	public void agregarViaje(Viaje viaje) {
+		this.viajes.add(viaje);
 	}
 	
 	public void agregarCircuito(CircuitoMaritimo circuito) {
@@ -47,9 +48,16 @@ public class Naviera {
 				.tiempoDeLlegadaEntre(origen, destino);
 	}
 
-	public LocalDate proximaFechaDePartidaADestino(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception{
+	public LocalDate proximaFechaDePartidaADestino(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
+		//devuelve la fecha de salida a una terminal destino, desde una terminal origen
 	return this.viajes.stream().filter(v->v.tieneTrayectoEntre(origen, destino))
-			.findFirst().get()
-			.fechaLlegadaATerminal(destino);
+			.findFirst().map(v->v.getFechaSalida())
+			.orElseThrow(() -> new NoSuchElementException("No se encuentra la terminal solicitada"));
+	}
+	
+	public LocalDate proximaFechaDeLlegadaADestino(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
+		//devuelve la fecha de llegada a una terminal destino, desde una terminal origen
+		return this.viajes.stream().filter(v->v.tieneTrayectoEntre(origen, destino))
+				.findFirst().get().fechaLlegadaATerminal(destino);
 	}
 }

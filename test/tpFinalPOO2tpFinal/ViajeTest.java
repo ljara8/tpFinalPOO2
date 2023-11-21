@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class ViajeTest {
 	private Buque buque2;
 	private LocalDate fecha1 = LocalDate.of(2023, 10, 19);
 	private LocalDate fecha2 = LocalDate.of(2023, 11, 10);
-	private LocalDate fechaEsperada2 = LocalDate.of(2023, 11, 14);
+	private LocalDate fechaEsperada = LocalDate.of(2023, 11, 14);
 	private CircuitoMaritimo circuitoMock;
 	private CircuitoMaritimo circuito1;
 	private Viaje viaje1;
@@ -28,6 +29,7 @@ class ViajeTest {
 	private TerminalPortuaria terminal1;
 	private TerminalPortuaria terminal2;
 	private TerminalPortuaria terminal3;
+	private TerminalPortuaria terminal4;
 	
 	
 	@BeforeEach
@@ -37,6 +39,7 @@ class ViajeTest {
 		terminal1 = mock(TerminalPortuaria.class);
 		terminal2 = mock(TerminalPortuaria.class);
 		terminal3 = mock(TerminalPortuaria.class);
+		terminal4 = mock(TerminalPortuaria.class);
 		circuitoMock = mock(CircuitoMaritimo.class);
 		circuito1 = new CircuitoMaritimo(terminal1, terminal2, 500, 4);
 		viaje1 = new Viaje(circuitoMock, buque1, fecha1);
@@ -64,14 +67,19 @@ class ViajeTest {
 		circuito1.agregarTramoHacia(terminal3,200, 3);
 		
 		
-		assertEquals(fechaEsperada2, viaje2.fechaLlegadaATerminal(terminal2));
+		assertEquals(fechaEsperada, viaje2.fechaLlegadaATerminal(terminal2));
+	}
+	
+	@Test
+	void testFechaLlegadaATerminalThrowException() throws Exception {
+		circuito1.agregarTramoHacia(terminal3,200, 3);
+		
+		
+		assertThrowsExactly(NoSuchElementException.class,() -> viaje2.fechaLlegadaATerminal(terminal4));
 	}
 	
 	
 	
-	
-	
-	
-	
+
 	
 }

@@ -1,6 +1,7 @@
 package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 public class CircuitoMaritimo {
 	
@@ -55,18 +56,27 @@ public class CircuitoMaritimo {
 				.anyMatch(t->t.getDestino().equals(destino));
 	}
 	
+	public double precioDelTrayectoEntre(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
+		if(this.tieneTrayectoEntreTerminales(origen, destino)) {
+			return tramos.stream().dropWhile(t->!t.getOrigen().equals(origen))
+				.takeWhile(t->!t.getOrigen().equals(destino))
+				.mapToDouble(t->t.getPrecio()).sum();
+		}
+		else throw new NoSuchElementException("No hay trayecto entre estas terminales");
+	}
+	
 	public int tiempoDeLlegadaEntre(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
 		if(this.tieneTrayectoEntreTerminales(origen, destino)) {
 			return tramos.stream().dropWhile(t->!t.getOrigen().equals(origen))
 				.takeWhile(t->!t.getOrigen().equals(destino))
 				.mapToInt(t->t.getTiempo()).sum();	
 		}
-		else throw new Exception("No hay trayecto entre estas terminales");
+		else throw new NoSuchElementException("No hay trayecto entre estas terminales");
 	}
 	
 	private void verificarSiHayTramos() throws Exception {
 		if(tramos.isEmpty()) {
-			throw new Exception ("No hay tramos en el circuito");
+			throw new NoSuchElementException ("No hay tramos en el circuito");
 		}
 	}
 }

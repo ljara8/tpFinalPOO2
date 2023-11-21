@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 import java.time.LocalDate;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,16 @@ class CronogramaViajeTest {
 
 		
 		assertEquals(fechaEsperada2, cronograma.fechaLlegadaATerminal(terminal4));
+		
+	}
+	
+	@Test
+	void testFechaLlegadaATerminalNoTieneTerminalThrowException() throws Exception {
+		circuito2.agregarTramoHacia(terminal4, 400, 4);
+		cronograma = new CronogramaViaje(circuito2, fecha2);
+
+		
+		assertThrowsExactly(NoSuchElementException.class, () -> cronograma.fechaLlegadaATerminal(terminal1));
 		
 	}
 }

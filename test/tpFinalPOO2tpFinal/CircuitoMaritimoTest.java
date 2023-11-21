@@ -3,6 +3,8 @@ package tpFinalPOO2tpFinal;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
+import java.util.NoSuchElementException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -68,7 +70,24 @@ class CircuitoMaritimoTest {
 	@Test
 	void testTiempoDeLlegadaEntreTerminales() throws Exception{
 		
-			assertEquals(6, circuito.tiempoDeLlegadaEntre(segundaTerminal, quintaTerminal));
+		assertEquals(4, circuito.tiempoDeLlegadaEntre(segundaTerminal, cuartaTerminal));	
+	}
+	
+	@Test
+	void testTiempoDeLlegadaEntreTerminalesThrowException() throws Exception{
 		
+		assertThrowsExactly(NoSuchElementException.class,() -> circuito.tiempoDeLlegadaEntre(segundaTerminal, sextaTerminal));	
+	}
+	
+	@Test 
+	void testPrecioEntreTrayectos() throws Exception{
+		
+		assertEquals(900, circuito.precioDelTrayectoEntre(segundaTerminal, quintaTerminal));
+	}
+	
+	@Test 
+	void testPrecioEntreTrayectosThrowException() throws Exception{
+		
+		assertThrowsExactly(NoSuchElementException.class,() -> circuito.precioDelTrayectoEntre(segundaTerminal, sextaTerminal));
 	}
 }
