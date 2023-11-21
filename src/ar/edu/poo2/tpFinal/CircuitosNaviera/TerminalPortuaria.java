@@ -2,14 +2,20 @@ package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import ar.edu.poo2.tpFinal.busquedaMaritima.BusquedaMaritima;
 import ar.edu.poo2.tpFinal.Buque;
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
+import ar.edu.poo2.tpFinal.Cliente;
 import ar.edu.poo2.tpFinal.Consignee;
 import ar.edu.poo2.tpFinal.EmpresaTransportista;
 import ar.edu.poo2.tpFinal.EntregaTerrestre;
+import ar.edu.poo2.tpFinal.Mail;
+import ar.edu.poo2.tpFinal.MailManager;
+import ar.edu.poo2.tpFinal.ordenes.Orden;
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
 import ar.edu.poo2.tpFinal.seleccionadorCircuito.SeleccionadorCircuito;
@@ -17,6 +23,7 @@ import ar.edu.poo2.tpFinal.Shipper;
 
 public class TerminalPortuaria {
 
+	private MailManager mailManager;
 	private BusquedaMaritima criterio;
 	private SeleccionadorCircuito seleccion;
 	private List<Naviera> navieras = new ArrayList<Naviera>();
@@ -101,13 +108,38 @@ public class TerminalPortuaria {
 	}
 
 	public void notificarSobreLlegadaInminente(Buque buque) {
-		// TODO Auto-generated method stub
-		
+		notificarPorEmail(buque, ordenImportaciones, this::enviarMailLlegadaInminenteACliente);
+	}
+	
+	public void notificarDesembarque(Buque buque) {
+		notificarPorEmail(buque, ordenExportaciones, this::enviarMailDesembarco);
+	}
+	
+	public void notificarPorEmail(Buque buque, List<? extends Orden> ordenes, Function<Cliente, Mail> mapperDeEmail) {
+		ordenes.stream()
+		.filter(orden -> {
+			Viaje viaje = orden.getViajeActual();
+			return viaje.getBuque() == buque;
+		})
+		.map(orden -> orden.getCliente())
+		.map(cliente -> mapperDeEmail.apply(cliente))
+		.forEach(mail -> mailManager.enviarMail(mail));
 	}
 
-	public void notificarDesembarque(Buque buque) {
-		// TODO Auto-generated method stub
-		
+	private Mail enviarMailLlegadaInminenteACliente(Cliente cliente) {
+		return new Mail(
+						"Tu pedido está llegando a la terminal", 
+						cliente.getEmail(), 
+						"Tu pedido se encuentra a menos de 50km de la terminal. Acércate en breves para reclamarlo"
+					);
+	}
+	
+	private Mail enviarMailDesembarco(Cliente cliente) {
+		return new Mail(
+						"Tu pedido ha salido de la terminal", 
+						cliente.getEmail(), 
+						"Tu pedido ha zarpado de la terminal y se encuentra a más de un kilómetro de distancia. Mantente al tanto sobre el estado del viaje"
+					);
 	}
 
 }
