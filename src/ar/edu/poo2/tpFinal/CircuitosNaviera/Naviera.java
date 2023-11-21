@@ -52,4 +52,9 @@ public class Naviera {
 			.findFirst().get()
 			.fechaLlegadaATerminal(destino);
 	}
+	
+	public List<CircuitoMaritimo> circuitosQuePasanPorTerminales(TerminalPortuaria origen, TerminalPortuaria destino) {
+		return circuitos.stream().filter(circuito -> circuito.tieneTrayectoEntreTerminales(origen, destino)).toList();
+	}
+	
 }
