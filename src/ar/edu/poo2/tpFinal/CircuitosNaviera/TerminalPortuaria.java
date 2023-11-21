@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import ar.edu.poo2.tpFinal.busquedaMaritima.BusquedaMaritima;
 import ar.edu.poo2.tpFinal.Buque;
@@ -24,8 +25,8 @@ import ar.edu.poo2.tpFinal.Shipper;
 public class TerminalPortuaria {
 
 	private MailManager mailManager;
-	private BusquedaMaritima criterio;
-	private SeleccionadorCircuito seleccion;
+	private BusquedaMaritima busquedaMaritima;
+	private SeleccionadorCircuito seleccionadorCircuito;
 	private List<Naviera> navieras = new ArrayList<Naviera>();
 	private List<Shipper> shippers = new ArrayList<Shipper>();
 	private List<Consignee> consignees = new ArrayList<Consignee>();
@@ -64,13 +65,24 @@ public class TerminalPortuaria {
 		circuitos.add(cm);
 	}
 
-	public void setSeleccionadorCircuito(SeleccionadorCircuito s) {
-		this.seleccion = s;
+	public void setSeleccionadorCircuito(SeleccionadorCircuito seleccionadorCircuito) {
+		this.seleccionadorCircuito = seleccionadorCircuito;
 	}
-
-	public List<CircuitoMaritimo> mejorCircuitoHaciaTerminal(TerminalPortuaria terminal) {
-		return terminal.getCircuitos(); // recorrer lista de circuitos maritimos y retornar la que sea segun el criterio
-										// de busqueda maritima
+	
+	public void setBusquedaMaritima(BusquedaMaritima busquedaMaritima) {
+		this.busquedaMaritima = busquedaMaritima;
+	}
+	
+	public List<Viaje> viajesQueCoincidenConBusqueda(BusquedaMaritima busquedaMaritima) {
+		List<Viaje> todosLosViajes = navieras.stream().flatMap(naviera -> naviera.getViajes().stream()).toList();
+		return todosLosViajes.stream().filter(viaje -> busquedaMaritima.evaluar(viaje)).toList();
+	}
+	
+	public CircuitoMaritimo mejorCircuitoHaciaTerminal(TerminalPortuaria terminal) {
+		List<CircuitoMaritimo> circuitosQueHacenElRecorrido = navieras.stream()
+				.flatMap(naviera -> naviera.circuitosQuePasanPorTerminales(this, terminal).stream())
+				.toList();
+		return seleccionadorCircuito.mejorCircuitoEntre(circuitosQueHacenElRecorrido);
 	}
 
 	private List<CircuitoMaritimo> getCircuitos() {
