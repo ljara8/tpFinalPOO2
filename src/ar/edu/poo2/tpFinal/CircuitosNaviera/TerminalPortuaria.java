@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.poo2.tpFinal.busquedaMaritima.BusquedaMaritima;
+import ar.edu.poo2.tpFinal.Buque;
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
 import ar.edu.poo2.tpFinal.Consignee;
@@ -97,6 +98,16 @@ public class TerminalPortuaria {
 
 	public List<OrdenImportacion> getOrdenImportaciones() {
 		return ordenImportaciones;
+	}
+
+	public void notificarSobreLlegadaInminente(Buque buque) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void notificarDesembarque(Buque buque) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
