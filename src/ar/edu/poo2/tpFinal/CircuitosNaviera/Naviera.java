@@ -1,30 +1,32 @@
 package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import ar.edu.poo2.tpFinal.Buque;
+
 public class Naviera {
-	private List<Buque> buques;
-	private List<CircuitoMaritimo> circuitos;
-	private List<Viaje> viajes;
+	private HashSet<Buque> buques;
+	private HashSet<CircuitoMaritimo> circuitos;
+	private HashSet<Viaje> viajes;
 
 	public Naviera() {
-		this.buques =  new ArrayList<Buque>();
-		this.circuitos = new ArrayList<CircuitoMaritimo>();
-		this.viajes = new ArrayList<Viaje>();
+		this.buques =  new HashSet<Buque>();
+		this.circuitos = new HashSet<CircuitoMaritimo>();
+		this.viajes = new HashSet<Viaje>();
 	}
 	
-	public List<Buque> getBuques(){
+	public HashSet<Buque> getBuques(){
 		return this.buques;
 	}
 	
-	public List<CircuitoMaritimo> getCircuitos(){
+	public HashSet<CircuitoMaritimo> getCircuitos(){
 		return this.circuitos;
 	}
 	
-	public List<Viaje> getViajes(){
+	public HashSet<Viaje> getViajes(){
 		return this.viajes;
 	}
 	

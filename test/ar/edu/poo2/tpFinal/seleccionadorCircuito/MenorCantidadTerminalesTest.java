@@ -11,6 +11,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import ar.edu.poo2.tpFinal.CircuitosNaviera.CircuitoMaritimo;
+
 public class MenorCantidadTerminalesTest{
 	
 	private List<CircuitoMaritimo> circuitos;

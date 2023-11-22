@@ -1,23 +1,24 @@
 package ar.edu.poo2.tpFinal.ordenes;
 
 import ar.edu.poo2.tpFinal.Camion;
+
 import ar.edu.poo2.tpFinal.Chofer;
-import ar.edu.poo2.tpFinal.Cliente;
-import ar.edu.poo2.tpFinal.Factura;
-import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.*;
+import ar.edu.poo2.tpFinal.clientes.Consignee;
 import ar.edu.poo2.tpFinal.contyserv.Container;
 
-public class OrdenImportacion extends Orden{
+public class OrdenImportacion extends Orden {
+	private FacturaResponsableViaje factura;
 
-	OrdenImportacion(Cliente client, Container cont, Camion cam, Chofer chofer, Viaje viaje) {
+	OrdenImportacion(Consignee client, Container cont, Camion cam, Chofer chofer, Viaje viaje,
+			FacturaResponsableViaje fact) {
 		super(client, cont, cam, chofer, viaje);
-		// TODO Auto-generated constructor stub
+		this.factura = fact;
 	}
 
 	@Override
 	public Factura getFactura() {
-		// TODO Auto-generated method stub
-		return null;
+		return factura;
 	}
 
 }

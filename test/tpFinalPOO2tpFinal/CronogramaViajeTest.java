@@ -37,7 +37,14 @@ class CronogramaViajeTest {
 		circuito1 = new CircuitoMaritimo(terminal1, terminal2, 300, 3);
 		circuito2 = new CircuitoMaritimo(terminal2, terminal3, 200, 2);
 	}
-
+	
+	@Test
+	void testFechaSalida() {
+		cronograma = new CronogramaViaje(circuito1,fecha1);
+		
+		assertEquals(fecha1, cronograma.getFechaSalida());
+	}
+	
 	@Test
 	void testFechaLlegada() {
 		cronograma = new CronogramaViaje(circuito1, fecha1);

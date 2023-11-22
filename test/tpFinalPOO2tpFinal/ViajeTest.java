@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.poo2.tpFinal.CircuitosNaviera.Buque;
+import ar.edu.poo2.tpFinal.Buque;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.CircuitoMaritimo;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.TerminalPortuaria;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
@@ -47,6 +47,25 @@ class ViajeTest {
 		viaje1 = new Viaje(circuitoMock, buque1, fecha1);
 		viaje2 = new Viaje(circuito1, buque2, fecha2);
 		
+	}
+	
+	@Test
+	void testFechaSalida() {
+		
+		assertEquals(fecha2, viaje2.getFechaSalida());
+	}
+	
+	@Test
+	void testFechaLlegada() {
+		
+		assertEquals(fechaEsperada, viaje2.getFechaLlegada());
+	}
+	
+	@Test
+	void testTerminalOrigenYDestino() {
+		
+		assertEquals(terminal1, viaje2.getOrigen());
+		assertEquals(terminal2, viaje2.getDestino());
 	}
 	
 	@Test

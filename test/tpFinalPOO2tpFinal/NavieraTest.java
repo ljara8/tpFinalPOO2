@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -61,6 +62,25 @@ class NavieraTest {
 	}
 	
 	@Test
+	void testCircuitosContenidos() {
+		HashSet<CircuitoMaritimo> circuitosEsperados = new HashSet<>();
+		circuitosEsperados.add(primerCircuito);
+		circuitosEsperados.add(segundoCircuito);
+		
+		assertEquals(circuitosEsperados, naviera.getCircuitos());
+	}
+	
+	@Test
+	void testViajesContenidos() {
+		HashSet<Viaje> viajesEsperados = new HashSet<>();
+		viajesEsperados.add(viaje1);
+		viajesEsperados.add(viaje2);
+		
+		assertEquals(viajesEsperados, naviera.getViajes());
+	}
+	
+	
+	@Test
 	void testNoTieneCircuitoConTerminal() {
 		when(segundoCircuito.tieneTerminalEnTrayecto(segundaTerminal)).thenReturn(false);
 		segundoCircuito.tieneTerminalEnTrayecto(segundaTerminal);
@@ -68,6 +88,14 @@ class NavieraTest {
 		verify(segundoCircuito,times(1)).tieneTerminalEnTrayecto(segundaTerminal);
 		
 		assertFalse(naviera.tieneCircuitoConTerminal(segundaTerminal));
+	}
+	
+	@Test
+	void testTieneCircuitoConTrayecto() {
+		when(primerCircuito.tieneTrayectoEntreTerminales(primeraTerminal,segundaTerminal)).thenReturn(true);
+		when(segundoCircuito.tieneTrayectoEntreTerminales(primeraTerminal,segundaTerminal)).thenReturn(false);
+		
+		assertTrue(naviera.tieneCircuitoConTrayecto(primeraTerminal, segundaTerminal));
 	}
 	
 	@Test

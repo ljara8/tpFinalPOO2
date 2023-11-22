@@ -36,6 +36,19 @@ class CircuitoMaritimoTest {
 	}
 	
 	@Test
+	void testTerminalOrigen() {
+		
+		assertEquals(primeraTerminal, circuito.getOrigen());
+	}
+	
+	@Test
+	void testTerminalDestino() {
+		
+		assertEquals(quintaTerminal, circuito.getDestino());
+	}
+	
+	
+	@Test
 	void testTiempoTotalCorrecto() {
 		
 		assertEquals(8, circuito.getTiempoTotalRecorrido());
@@ -76,7 +89,7 @@ class CircuitoMaritimoTest {
 	void testTiempoDeLlegadaEntreTerminalesThrowException() {
 		
 		assertFalse(circuito.tieneTrayectoEntreTerminales(segundaTerminal, sextaTerminal));
-		assertThrowsExactly(RuntimeException.class,() -> circuito.precioDelTrayectoEntre(segundaTerminal, sextaTerminal));	
+		assertThrowsExactly(RuntimeException.class,() -> circuito.tiempoDeLlegadaEntre(segundaTerminal, sextaTerminal));	
 	}	
 	
 	@Test 
