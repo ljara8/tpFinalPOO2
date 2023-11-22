@@ -11,9 +11,6 @@ public class FacturaSimple implements Factura {
 		return orden;
 	}
 
-	public Desglose getDesglose(Orden orden) {
-		return orden.getDesglose();
-	}
 
 	@Override
 	public double getMontoTotalFacturado(Orden orden) throws Exception{

@@ -26,7 +26,7 @@ public class Shipper implements Cliente{
 	}
 	@Override
 	public double abonarFacturacion(OrdenExportacion orden) throws Exception {
-		return orden.getFactura().getDesglose(orden).getMontoTotal(orden);
+		return orden.getFactura().getMontoTotalFacturado(orden);
 
 	}
 
