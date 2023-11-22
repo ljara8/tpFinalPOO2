@@ -19,7 +19,7 @@ class TestServicioExcedente {
 	void setUp() throws Exception {
 		excedente = mock(Excedente.class);
 		orden = mock(Orden.class);
-		
+
 		costoExcedentePromedio = 15050.5;
 	}
 
@@ -31,22 +31,21 @@ class TestServicioExcedente {
 		when(excedente.montoTotal(orden)).thenReturn(50000.5);
 		assertTrue(excedente.montoTotal(orden) == 50000.5);
 	}
-	
+
 	@Test
 	void testCostoDeExcedenteMayorAPromedio() {
 		
 		when(excedente.getCostoPorExcedente()).thenReturn(50000.5);
 		assertTrue(excedente.getCostoPorExcedente() > costoExcedentePromedio);
 	}
-	
+
 	@Test
 	void testCostoDeExcedenteMenorAPromedio() {
 		
 		when(excedente.getCostoPorExcedente()).thenReturn(1234.5);
 		assertTrue(excedente.getCostoPorExcedente() < costoExcedentePromedio);
 	}
-	
-	
+
 	@Test
 	void testCostoDeExcedenteIgualAPromedio() {
 		

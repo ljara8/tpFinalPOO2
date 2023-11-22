@@ -69,20 +69,19 @@ public class TerminalPortuaria {
 	public void setSeleccionadorCircuito(SeleccionadorCircuito seleccionadorCircuito) {
 		this.seleccionadorCircuito = seleccionadorCircuito;
 	}
-	
+
 	public void setBusquedaMaritima(BusquedaMaritima busquedaMaritima) {
 		this.busquedaMaritima = busquedaMaritima;
 	}
-	
+
 	public List<Viaje> viajesQueCoincidenConBusqueda(BusquedaMaritima busquedaMaritima) {
 		List<Viaje> todosLosViajes = navieras.stream().flatMap(naviera -> naviera.getViajes().stream()).toList();
 		return todosLosViajes.stream().filter(viaje -> busquedaMaritima.evaluar(viaje)).toList();
 	}
-	
+
 	public CircuitoMaritimo mejorCircuitoHaciaTerminal(TerminalPortuaria terminal) {
 		List<CircuitoMaritimo> circuitosQueHacenElRecorrido = navieras.stream()
-				.flatMap(naviera -> naviera.circuitosQuePasanPorTerminales(this, terminal).stream())
-				.toList();
+				.flatMap(naviera -> naviera.circuitosQuePasanPorTerminales(this, terminal).stream()).toList();
 		return seleccionadorCircuito.mejorCircuitoEntre(circuitosQueHacenElRecorrido);
 	}
 
@@ -94,33 +93,34 @@ public class TerminalPortuaria {
 		return 0; // recorrido sobre circuitos de la naviera dada y retornar la que menor tiempo
 					// tarda en la suma de los tramos
 	}
+
 //TEMPLATE METHOD
 	public void exportar(EntregaTerrestre et) {
-		//camion llega carga a Terminal
-		//verificar Horario, camion, chofer informado por Shipper
-		//agregar carga a terminal
-		
+		// camion llega carga a Terminal
+		// verificar Horario, camion, chofer informado por Shipper
+		// agregar carga a terminal
+
 	}
 
 	public void importar(EntregaTerrestre et) {
-		//verificar Horario (cobrar excedente si pasa del permitido)
-		//verificar  camion, chofer informado por Consignee
-		//retirar carga de terminal
-		
+		// verificar Horario (cobrar excedente si pasa del permitido)
+		// verificar camion, chofer informado por Consignee
+		// retirar carga de terminal
+
 	}
 
 	public Turno registrarOrdenExportacion(OrdenExportacion orden) {
 		Turno turno = new Turno(orden);
-		//registrar orden
+		// registrar orden
 		this.getOrdenExportaciones().add(orden);
-		//asignar turno shipper
+		// asignar turno shipper
 		return turno;
 	}
 
 	public void registrarOrdenImportacion(OrdenImportacion orden) {
-		//registrar orden
+		// registrar orden
 		this.getOrdenImportaciones().add(orden);
-		
+
 	}
 
 	public List<OrdenExportacion> getOrdenExportaciones() {
@@ -134,36 +134,27 @@ public class TerminalPortuaria {
 	public void notificarSobreLlegadaInminente(Buque buque) {
 		notificarPorEmail(buque, ordenImportaciones, this::enviarMailLlegadaInminenteACliente);
 	}
-	
+
 	public void notificarDesembarque(Buque buque) {
 		notificarPorEmail(buque, ordenExportaciones, this::enviarMailDesembarco);
 	}
-	
+
 	public void notificarPorEmail(Buque buque, List<? extends Orden> ordenes, Function<Cliente, Mail> mapperDeEmail) {
-		ordenes.stream()
-		.filter(orden -> {
+		ordenes.stream().filter(orden -> {
 			Viaje viaje = orden.getViajeActual();
 			return viaje.getBuque() == buque;
-		})
-		.map(orden -> orden.getCliente())
-		.map(cliente -> mapperDeEmail.apply(cliente))
-		.forEach(mail -> mailManager.enviarMail(mail));
+		}).map(orden -> orden.getCliente()).map(cliente -> mapperDeEmail.apply(cliente))
+				.forEach(mail -> mailManager.enviarMail(mail));
 	}
 
 	private Mail enviarMailLlegadaInminenteACliente(Cliente cliente) {
-		return new Mail(
-						"Tu pedido está llegando a la terminal", 
-						cliente.getEmail(), 
-						"Tu pedido se encuentra a menos de 50km de la terminal. Acércate en breves para reclamarlo"
-					);
+		return new Mail("Tu pedido está llegando a la terminal", cliente.getEmail(),
+				"Tu pedido se encuentra a menos de 50km de la terminal. Acércate en breves para reclamarlo");
 	}
-	
+
 	private Mail enviarMailDesembarco(Cliente cliente) {
-		return new Mail(
-						"Tu pedido ha salido de la terminal", 
-						cliente.getEmail(), 
-						"Tu pedido ha zarpado de la terminal y se encuentra a más de un kilómetro de distancia. Mantente al tanto sobre el estado del viaje"
-					);
+		return new Mail("Tu pedido ha salido de la terminal", cliente.getEmail(),
+				"Tu pedido ha zarpado de la terminal y se encuentra a más de un kilómetro de distancia. Mantente al tanto sobre el estado del viaje");
 	}
 
 }

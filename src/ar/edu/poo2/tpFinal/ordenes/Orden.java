@@ -50,11 +50,6 @@ public abstract class Orden {
 	}
 
 
-	public int getHorasDeDemora() {
-		return horasDeDemora;
-
-	}
-
 	public abstract Factura getFactura();
 
 	public Container getContainer() {
@@ -87,6 +82,10 @@ public abstract class Orden {
 
 	public LocalDateTime getFechaSalidaADestino() {
 		return this.getViajeActual().getFechaSalida();
+	}
+
+	public int getHorasDeDemora() {
+		return horasDeDemora;
 	}
 
 }

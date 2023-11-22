@@ -11,12 +11,8 @@ public class FacturaSimple implements Factura {
 		return orden;
 	}
 
-
 	@Override
-	public double getMontoTotalFacturado(Orden orden) throws Exception{
-		return orden.getServiciosContratados()
-				.stream()
-				.mapToDouble(s-> s.montoTotal(orden))
-				.sum();
+	public double getMontoTotalFacturado(Orden orden) throws Exception {
+		return orden.getServiciosContratados().stream().mapToDouble(s -> s.montoTotal(orden)).sum();
 	}
 }

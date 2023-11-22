@@ -6,8 +6,8 @@ public class Excedente extends Servicio {
 
 	private double costoPorExcedente;
 	private Container cont;
-	
-	Excedente(double costoExceso, Container cont){
+
+	Excedente(double costoExceso, Container cont) {
 		this.costoPorExcedente = costoExceso;
 		this.cont = cont;
 	}
