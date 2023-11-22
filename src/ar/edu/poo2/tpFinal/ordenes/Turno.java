@@ -1,7 +1,7 @@
 package ar.edu.poo2.tpFinal.ordenes;
 
-import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
@@ -10,15 +10,15 @@ import ar.edu.poo2.tpFinal.clientes.Cliente;
 
 public class Turno {
 	private OrdenExportacion orden;
-	private Date fechaRecepcion;
 
-	Turno(OrdenExportacion orden, Date fecha) {
+	public Turno(OrdenExportacion orden) {
 		this.orden = orden;
-		this.fechaRecepcion = fecha;
 	}
 
-	public Date getFechaRecepcion() {
-		return fechaRecepcion;
+	public LocalDateTime getFechaRecepcion() {
+		LocalDateTime fechaLlegada = orden.getFechaLlegadaADestino();
+		LocalDateTime fechaDeEntrega = fechaLlegada.minusHours(12);
+		return fechaDeEntrega;
 	}
 
 	public Cliente getShipper() {

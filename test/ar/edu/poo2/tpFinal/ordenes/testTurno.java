@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ import ar.edu.poo2.tpFinal.ordenes.Turno;
 
 class testTurno {
 	private OrdenExportacion orden;
-	private Date fechaRecepcion;
+	private LocalDateTime fechaRecepcion;
 	private Date fechaRecepcion2;
 	private Cliente cliente;
 	private Cliente cliente2;
@@ -33,7 +34,7 @@ class testTurno {
 	@BeforeEach
 	void setUp() throws Exception {
 		turno = mock(Turno.class);
-		fechaRecepcion = mock(Date.class);
+		fechaRecepcion = mock(LocalDateTime.class);
 		fechaRecepcion2 = mock(Date.class);
 		orden = mock(OrdenExportacion.class);
 		chofer2 = mock(Chofer.class);

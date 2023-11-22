@@ -20,6 +20,7 @@ import ar.edu.poo2.tpFinal.MailManager;
 import ar.edu.poo2.tpFinal.ordenes.Orden;
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
+import ar.edu.poo2.tpFinal.ordenes.Turno;
 import ar.edu.poo2.tpFinal.seleccionadorCircuito.SeleccionadorCircuito;
 
 public class TerminalPortuaria {
@@ -93,22 +94,33 @@ public class TerminalPortuaria {
 		return 0; // recorrido sobre circuitos de la naviera dada y retornar la que menor tiempo
 					// tarda en la suma de los tramos
 	}
-
+//TEMPLATE METHOD
 	public void exportar(EntregaTerrestre et) {
-
+		//camion llega carga a Terminal
+		//verificar Horario, camion, chofer informado por Shipper
+		//agregar carga a terminal
+		
 	}
 
 	public void importar(EntregaTerrestre et) {
-
+		//verificar Horario (cobrar excedente si pasa del permitido)
+		//verificar  camion, chofer informado por Consignee
+		//retirar carga de terminal
+		
 	}
 
-	public void registrarOrdenExportacion(OrdenExportacion orden) {
-		// aca retorna un valor Turno, no un void.Y se calculan a partir de los datos de
-		// la orden
+	public Turno registrarOrdenExportacion(OrdenExportacion orden) {
+		Turno turno = new Turno(orden);
+		//registrar orden
+		this.getOrdenExportaciones().add(orden);
+		//asignar turno shipper
+		return turno;
 	}
 
 	public void registrarOrdenImportacion(OrdenImportacion orden) {
-
+		//registrar orden
+		this.getOrdenImportaciones().add(orden);
+		
 	}
 
 	public List<OrdenExportacion> getOrdenExportaciones() {

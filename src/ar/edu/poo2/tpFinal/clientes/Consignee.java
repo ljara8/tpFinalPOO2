@@ -32,7 +32,7 @@ public class Consignee implements Cliente {
 
 	@Override
 	public double abonarFacturacion(OrdenImportacion orden) throws Exception {
-		return orden.getFactura().getDesglose(orden).getMontoTotal(orden);
+		return orden.getFactura().getMontoTotalFacturado(orden);
 	}
 
 	public OrdenImportacion getOrdenImp() {

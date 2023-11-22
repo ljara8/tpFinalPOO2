@@ -1,6 +1,7 @@
 package ar.edu.poo2.tpFinal.ordenes;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +24,6 @@ public abstract class Orden {
 	private Chofer chofer;
 	private Viaje viajeActual;
 	private List<Servicio> serviciosContratados = new ArrayList<Servicio>();
-	private Desglose desglose;
 	private TerminalPortuaria terminal;
 	private int horasDeDemora;
 
@@ -34,7 +34,6 @@ public abstract class Orden {
 		this.camion = cam;
 		this.chofer = chofer;
 		this.viajeActual = viaje;
-		this.desglose = desg;
 		this.terminal = term;
 		this.horasDeDemora = horas;
 	}
@@ -50,9 +49,6 @@ public abstract class Orden {
 		return 0;
 	}
 
-	public Desglose getDesglose() {
-		return desglose;
-	}
 
 	public int getHorasDeDemora() {
 		return horasDeDemora;
@@ -85,11 +81,11 @@ public abstract class Orden {
 		return chofer;
 	}
 
-	public LocalDate getFechaLlegadaADestino() {
+	public LocalDateTime getFechaLlegadaADestino() {
 		return this.getViajeActual().getFechaLlegada();
 	}
 
-	public LocalDate getFechaSalidaADestino() {
+	public LocalDateTime getFechaSalidaADestino() {
 		return this.getViajeActual().getFechaSalida();
 	}
 

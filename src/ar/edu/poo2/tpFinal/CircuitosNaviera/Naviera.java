@@ -1,6 +1,7 @@
 package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Naviera {
 		return this.viajes;
 	}
 	
-	public void agregarNuevoViaje(CircuitoMaritimo circuito, Buque buque, LocalDate fechaSalida) {
+	public void agregarNuevoViaje(CircuitoMaritimo circuito, Buque buque, LocalDateTime fechaSalida) {
 		this.viajes.add(new Viaje(circuito, buque, fechaSalida));
 	}
 	
@@ -47,7 +48,7 @@ public class Naviera {
 				.tiempoDeLlegadaEntre(origen, destino);
 	}
 
-	public LocalDate proximaFechaDePartidaADestino(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception{
+	public LocalDateTime proximaFechaDePartidaADestino(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception{
 	return this.viajes.stream().filter(v->v.tieneTrayectoEntre(origen, destino))
 			.findFirst().get()
 			.fechaLlegadaATerminal(destino);
