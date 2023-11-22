@@ -1,8 +1,6 @@
 package ar.edu.poo2.tpFinal.ordenes;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;

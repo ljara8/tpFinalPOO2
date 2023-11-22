@@ -9,6 +9,8 @@ public class CircuitoMaritimo {
 	public CircuitoMaritimo(TerminalPortuaria origen, TerminalPortuaria destino, double precio, int tiempo) {
 		// cuando se crea un nuevo circuito se inicializa con un tramo origen
 		this.tramos.add(new Tramo(origen, destino, precio, tiempo));
+		origen.registrarCircuitoMaritimo(this);
+		destino.registrarCircuitoMaritimo(this);
 	}
 
 	public LinkedList<Tramo> getTramos() {
@@ -26,6 +28,7 @@ public class CircuitoMaritimo {
 	public void agregarTramoHacia(TerminalPortuaria destino, double precio, int tiempo) {
 		// el circuito no debe estar vacio previamente
 		this.tramos.add(new Tramo(this.getDestino(), destino, precio, tiempo));
+		destino.registrarCircuitoMaritimo(this);
 	}
 
 	public int getTiempoTotalRecorrido() {
@@ -52,12 +55,27 @@ public class CircuitoMaritimo {
 				.anyMatch(t -> t.getDestino().equals(destino));
 	}
 
-	public int tiempoDeLlegadaEntre(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
-		if (this.tieneTrayectoEntreTerminales(origen, destino)) {
-			return tramos.stream().dropWhile(t -> !t.getOrigen().equals(origen))
-					.takeWhile(t -> !t.getOrigen().equals(destino)).mapToInt(t -> t.getTiempo()).sum();
-		} else
-			throw new Exception("No hay trayecto entre estas terminales");
+	
+	public double precioDelTrayectoEntre(TerminalPortuaria origen, TerminalPortuaria destino)  {
+		//se verificarse que exista un trayecto entre estas terminales
+		if(tieneTrayectoEntreTerminales(origen, destino)) {
+			return tramos.stream()
+				.dropWhile(t->!t.getOrigen().equals(origen))
+				.takeWhile(t->!t.getOrigen().equals(destino))
+				.mapToDouble(t->t.getPrecio()).sum();
+		}
+		throw new RuntimeException("Terminal destino no encontrada");
 	}
-
+	
+	public int tiempoDeLlegadaEntre(TerminalPortuaria origen, TerminalPortuaria destino) {
+		//se verificarse que exista un trayecto entre estas terminales
+		if(tieneTrayectoEntreTerminales(origen, destino)) {
+			return tramos.stream()
+				.dropWhile(t->!t.getOrigen().equals(origen))
+				.takeWhile(t->!t.getOrigen().equals(destino))
+				.mapToInt(t->t.getTiempo()).sum();
+			}
+		throw new RuntimeException("Terminal destino no encontrada");
+	}
 }
+	

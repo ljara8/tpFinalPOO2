@@ -36,19 +36,32 @@ class CircuitoMaritimoTest {
 	}
 	
 	@Test
-	void testTiempoTotalCorrecto() throws Exception {
+	void testTerminalOrigen() {
+		
+		assertEquals(primeraTerminal, circuito.getOrigen());
+	}
+	
+	@Test
+	void testTerminalDestino() {
+		
+		assertEquals(quintaTerminal, circuito.getDestino());
+	}
+	
+	
+	@Test
+	void testTiempoTotalCorrecto() {
 		
 		assertEquals(8, circuito.getTiempoTotalRecorrido());
 	}
 	
 	@Test 
-	void testPrecioTotal() throws Exception{
+	void testPrecioTotal() {
 		
 		assertEquals(1200, circuito.getPrecioTotalRecorrido());
 	}
 	
 	@Test
-	void testTotalTerminales() throws Exception{
+	void testTotalTerminales() {
 		
 		assertEquals(5, circuito.getCantidadTotalTerminales());
 	}
@@ -66,9 +79,30 @@ class CircuitoMaritimoTest {
 	}
 	
 	@Test
-	void testTiempoDeLlegadaEntreTerminales() throws Exception{
+	void testTiempoDeLlegadaEntreTerminales() {
 		
-			assertEquals(6, circuito.tiempoDeLlegadaEntre(segundaTerminal, quintaTerminal));
+		assertTrue(circuito.tieneTrayectoEntreTerminales(segundaTerminal, cuartaTerminal));
+		assertEquals(6, circuito.tiempoDeLlegadaEntre(segundaTerminal, quintaTerminal));	
+	}	
+	
+	@Test
+	void testTiempoDeLlegadaEntreTerminalesThrowException() {
 		
+		assertFalse(circuito.tieneTrayectoEntreTerminales(segundaTerminal, sextaTerminal));
+		assertThrowsExactly(RuntimeException.class,() -> circuito.tiempoDeLlegadaEntre(segundaTerminal, sextaTerminal));	
+	}	
+	
+	@Test 
+	void testPrecioEntreTrayectos(){
+		
+		assertTrue(circuito.tieneTrayectoEntreTerminales(segundaTerminal, cuartaTerminal));
+		assertEquals(600, circuito.precioDelTrayectoEntre(segundaTerminal, cuartaTerminal));
+	}
+	
+	@Test 
+	void testPrecioEntreTrayectosThrowException() {
+		
+		assertFalse(circuito.tieneTrayectoEntreTerminales(segundaTerminal, sextaTerminal));
+		assertThrowsExactly(RuntimeException.class,() -> circuito.precioDelTrayectoEntre(segundaTerminal, sextaTerminal));
 	}
 }
