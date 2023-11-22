@@ -3,7 +3,7 @@ package tpFinalPOO2tpFinal;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -22,10 +22,10 @@ class CronogramaViajeTest {
 	TerminalPortuaria terminal4;
 	CircuitoMaritimo circuito1;
 	CircuitoMaritimo circuito2;
-	LocalDate fecha1 = LocalDate.of(2023, 3, 5);
-	LocalDate fecha2 = LocalDate.of(2023, 3, 17);
-	LocalDate fechaEsperada = LocalDate.of(2023, 3, 8);
-	LocalDate fechaEsperada2 = LocalDate.of(2023, 3, 23);
+	LocalDateTime fecha1 = LocalDateTime.of(2023, 3, 5, 0, 0, 0);
+	LocalDateTime fecha2 = LocalDateTime.of(2023, 3, 17, 0, 0, 0);
+	LocalDateTime fechaEsperada1 = LocalDateTime.of(2023, 3, 8, 0, 0, 0);
+	LocalDateTime fechaEsperada2 = LocalDateTime.of(2023, 3, 23, 0, 0, 0);
 	CronogramaViaje cronograma;
 	
 	@BeforeEach
@@ -39,29 +39,26 @@ class CronogramaViajeTest {
 	}
 
 	@Test
-	void testFechaLlegada() throws Exception {
+	void testFechaLlegada() {
 		cronograma = new CronogramaViaje(circuito1, fecha1);
-
-		
-		assertEquals(fechaEsperada,cronograma.fechaLlegadaATerminal(terminal2));
+	
+		assertEquals(fechaEsperada1, cronograma.getFechaLlegada());
 	}
 	
 	@Test
-	void testFechaLlegadaATerminal() throws Exception {
+	void testFechaLlegadaATerminal() {
 		circuito2.agregarTramoHacia(terminal4, 400, 4);
 		cronograma = new CronogramaViaje(circuito2, fecha2);
-
-		
+	
 		assertEquals(fechaEsperada2, cronograma.fechaLlegadaATerminal(terminal4));
 		
 	}
 	
 	@Test
-	void testFechaLlegadaATerminalNoTieneTerminalThrowException() throws Exception {
+	void testFechaLlegadaATerminalNoTieneTerminalThrowException() {
 		circuito2.agregarTramoHacia(terminal4, 400, 4);
 		cronograma = new CronogramaViaje(circuito2, fecha2);
 
-		
 		assertThrowsExactly(NoSuchElementException.class, () -> cronograma.fechaLlegadaATerminal(terminal1));
 		
 	}

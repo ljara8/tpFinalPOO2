@@ -3,8 +3,6 @@ package tpFinalPOO2tpFinal;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-import java.util.NoSuchElementException;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,19 +36,19 @@ class CircuitoMaritimoTest {
 	}
 	
 	@Test
-	void testTiempoTotalCorrecto() throws Exception {
+	void testTiempoTotalCorrecto() {
 		
 		assertEquals(8, circuito.getTiempoTotalRecorrido());
 	}
 	
 	@Test 
-	void testPrecioTotal() throws Exception{
+	void testPrecioTotal() {
 		
 		assertEquals(1200, circuito.getPrecioTotalRecorrido());
 	}
 	
 	@Test
-	void testTotalTerminales() throws Exception{
+	void testTotalTerminales() {
 		
 		assertEquals(5, circuito.getCantidadTotalTerminales());
 	}
@@ -68,26 +66,30 @@ class CircuitoMaritimoTest {
 	}
 	
 	@Test
-	void testTiempoDeLlegadaEntreTerminales() throws Exception{
+	void testTiempoDeLlegadaEntreTerminales() {
 		
-		assertEquals(4, circuito.tiempoDeLlegadaEntre(segundaTerminal, cuartaTerminal));	
-	}
+		assertTrue(circuito.tieneTrayectoEntreTerminales(segundaTerminal, cuartaTerminal));
+		assertEquals(6, circuito.tiempoDeLlegadaEntre(segundaTerminal, quintaTerminal));	
+	}	
 	
 	@Test
-	void testTiempoDeLlegadaEntreTerminalesThrowException() throws Exception{
+	void testTiempoDeLlegadaEntreTerminalesThrowException() {
 		
-		assertThrowsExactly(NoSuchElementException.class,() -> circuito.tiempoDeLlegadaEntre(segundaTerminal, sextaTerminal));	
+		assertFalse(circuito.tieneTrayectoEntreTerminales(segundaTerminal, sextaTerminal));
+		assertThrowsExactly(RuntimeException.class,() -> circuito.precioDelTrayectoEntre(segundaTerminal, sextaTerminal));	
+	}	
+	
+	@Test 
+	void testPrecioEntreTrayectos(){
+		
+		assertTrue(circuito.tieneTrayectoEntreTerminales(segundaTerminal, cuartaTerminal));
+		assertEquals(600, circuito.precioDelTrayectoEntre(segundaTerminal, cuartaTerminal));
 	}
 	
 	@Test 
-	void testPrecioEntreTrayectos() throws Exception{
+	void testPrecioEntreTrayectosThrowException() {
 		
-		assertEquals(900, circuito.precioDelTrayectoEntre(segundaTerminal, quintaTerminal));
-	}
-	
-	@Test 
-	void testPrecioEntreTrayectosThrowException() throws Exception{
-		
-		assertThrowsExactly(NoSuchElementException.class,() -> circuito.precioDelTrayectoEntre(segundaTerminal, sextaTerminal));
+		assertFalse(circuito.tieneTrayectoEntreTerminales(segundaTerminal, sextaTerminal));
+		assertThrowsExactly(RuntimeException.class,() -> circuito.precioDelTrayectoEntre(segundaTerminal, sextaTerminal));
 	}
 }

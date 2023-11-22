@@ -1,7 +1,6 @@
 package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
 import java.util.LinkedList;
-import java.util.NoSuchElementException;
 
 public class CircuitoMaritimo {
 	
@@ -10,6 +9,8 @@ public class CircuitoMaritimo {
 	public CircuitoMaritimo(TerminalPortuaria origen, TerminalPortuaria destino, double precio, int tiempo) {
 		//cuando se crea un nuevo circuito se inicializa con un tramo origen
 		this.tramos.add(new Tramo(origen, destino, precio, tiempo));
+		origen.registrarCircuitoMaritimo(this);
+		destino.registrarCircuitoMaritimo(this);
 	}
 	
 	public LinkedList<Tramo> getTramos(){
@@ -27,23 +28,21 @@ public class CircuitoMaritimo {
 	public void agregarTramoHacia(TerminalPortuaria destino, double precio, int tiempo) {
 		//el circuito no debe estar vacio previamente
 		this.tramos.add(new Tramo(this.getDestino(), destino, precio, tiempo));
+		destino.registrarCircuitoMaritimo(this);
 	}
 
-	public int getTiempoTotalRecorrido() throws Exception {
-		this.verificarSiHayTramos();
+	public int getTiempoTotalRecorrido() {
 		return tramos.stream().mapToInt(tramo -> tramo.getTiempo()).sum();
 	}
 	
-	public double getPrecioTotalRecorrido() throws Exception {
-		this.verificarSiHayTramos();
+	public double getPrecioTotalRecorrido() {
 		return tramos.stream().mapToDouble(tramo -> tramo.getPrecio()).sum();
 	}
 	
-	public int getCantidadTotalTerminales() throws Exception {
+	public int getCantidadTotalTerminales() {
 		// La cantidad de terminales es igual a la cantidad de tramos + 1
 		// ya que por cada par de tramos, se repiten 2 terminales y dos son diferentes
 		// Lo mismo se cumple al haber un solo tramo.
-		this.verificarSiHayTramos();
 		return tramos.size() + 1;
 	}
 	
@@ -56,27 +55,26 @@ public class CircuitoMaritimo {
 				.anyMatch(t->t.getDestino().equals(destino));
 	}
 	
-	public double precioDelTrayectoEntre(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
-		if(this.tieneTrayectoEntreTerminales(origen, destino)) {
-			return tramos.stream().dropWhile(t->!t.getOrigen().equals(origen))
+	public double precioDelTrayectoEntre(TerminalPortuaria origen, TerminalPortuaria destino)  {
+		//se verificarse que exista un trayecto entre estas terminales
+		if(tieneTrayectoEntreTerminales(origen, destino)) {
+			return tramos.stream()
+				.dropWhile(t->!t.getOrigen().equals(origen))
 				.takeWhile(t->!t.getOrigen().equals(destino))
 				.mapToDouble(t->t.getPrecio()).sum();
 		}
-		else throw new NoSuchElementException("No hay trayecto entre estas terminales");
+		throw new RuntimeException("Terminal destino no encontrada");
 	}
 	
-	public int tiempoDeLlegadaEntre(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
-		if(this.tieneTrayectoEntreTerminales(origen, destino)) {
-			return tramos.stream().dropWhile(t->!t.getOrigen().equals(origen))
+	public int tiempoDeLlegadaEntre(TerminalPortuaria origen, TerminalPortuaria destino) {
+		//se verificarse que exista un trayecto entre estas terminales
+		if(tieneTrayectoEntreTerminales(origen, destino)) {
+			return tramos.stream()
+				.dropWhile(t->!t.getOrigen().equals(origen))
 				.takeWhile(t->!t.getOrigen().equals(destino))
-				.mapToInt(t->t.getTiempo()).sum();	
-		}
-		else throw new NoSuchElementException("No hay trayecto entre estas terminales");
+				.mapToInt(t->t.getTiempo()).sum();
+			}
+		throw new RuntimeException("Terminal destino no encontrada");
 	}
 	
-	private void verificarSiHayTramos() throws Exception {
-		if(tramos.isEmpty()) {
-			throw new NoSuchElementException ("No hay tramos en el circuito");
-		}
-	}
 }

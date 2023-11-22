@@ -2,15 +2,17 @@ package tpFinalPOO2tpFinal;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.poo2.tpFinal.Buque;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.Buque;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.CircuitoMaritimo;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.TerminalPortuaria;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
@@ -19,9 +21,9 @@ class ViajeTest {
 	
 	private Buque buque1;
 	private Buque buque2;
-	private LocalDate fecha1 = LocalDate.of(2023, 10, 19);
-	private LocalDate fecha2 = LocalDate.of(2023, 11, 10);
-	private LocalDate fechaEsperada = LocalDate.of(2023, 11, 14);
+	private LocalDateTime fecha1 = LocalDateTime.of(2023, 10, 19, 0, 0, 0);
+	private LocalDateTime fecha2 = LocalDateTime.of(2023, 11, 10, 0, 0, 0);
+	private LocalDateTime fechaEsperada = LocalDateTime.of(2023, 11, 14, 0, 0, 0);
 	private CircuitoMaritimo circuitoMock;
 	private CircuitoMaritimo circuito1;
 	private Viaje viaje1;
@@ -50,6 +52,9 @@ class ViajeTest {
 	@Test
 	void testTieneTrayectoEntreTerminales() {
 		when(circuitoMock.tieneTrayectoEntreTerminales(terminal1, terminal3)).thenReturn(true);
+		circuitoMock.tieneTrayectoEntreTerminales(terminal1, terminal3);
+		
+		verify(circuitoMock,times(1)).tieneTrayectoEntreTerminales(terminal1, terminal3);
 		
 		assertTrue(viaje1.tieneTrayectoEntre(terminal1, terminal3));	
 	}
@@ -57,6 +62,9 @@ class ViajeTest {
 	@Test
 	void testNoTieneTrayectoEntreTerminales() {
 		when(circuitoMock.tieneTrayectoEntreTerminales(terminal1, terminal2)).thenReturn(false);
+		circuitoMock.tieneTrayectoEntreTerminales(terminal1, terminal2);
+		
+		verify(circuitoMock,times(1)).tieneTrayectoEntreTerminales(terminal1, terminal2);
 		
 		assertFalse(viaje1.tieneTrayectoEntre(terminal1, terminal2));	
 	}
@@ -66,14 +74,12 @@ class ViajeTest {
 	void testFechaLlegadaATerminal() throws Exception {
 		circuito1.agregarTramoHacia(terminal3,200, 3);
 		
-		
 		assertEquals(fechaEsperada, viaje2.fechaLlegadaATerminal(terminal2));
 	}
 	
 	@Test
 	void testFechaLlegadaATerminalThrowException() throws Exception {
 		circuito1.agregarTramoHacia(terminal3,200, 3);
-		
 		
 		assertThrowsExactly(NoSuchElementException.class,() -> viaje2.fechaLlegadaATerminal(terminal4));
 	}

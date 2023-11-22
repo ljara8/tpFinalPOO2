@@ -1,8 +1,6 @@
 package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
-import java.time.LocalDate;
-
-import ar.edu.poo2.tpFinal.Buque;
+import java.time.LocalDateTime;
 
 public class Viaje {
 	
@@ -10,7 +8,7 @@ public class Viaje {
 	private Buque buque;
 	private CronogramaViaje cronograma;
 
-	public Viaje(CircuitoMaritimo circuito, Buque buque, LocalDate fechaSalida) {
+	public Viaje(CircuitoMaritimo circuito, Buque buque, LocalDateTime fechaSalida) {
 		this.circuito = circuito;
 		this.buque = buque;
 		this.cronograma = new CronogramaViaje(circuito, fechaSalida);
@@ -24,11 +22,11 @@ public class Viaje {
 		return this.cronograma;
 	}
 	
-	public LocalDate getFechaSalida() {
+	public LocalDateTime getFechaSalida() {
 		return this.cronograma.getFechaSalida();
 	}
 	
-	public LocalDate getFechaLlegada() {
+	public LocalDateTime getFechaLlegada() {
 		return this.cronograma.getFechaLlegada();
 	}
 	
@@ -44,7 +42,7 @@ public class Viaje {
 		return this.circuito.tieneTrayectoEntreTerminales(origen, destino);
 	}
 	
-	public LocalDate fechaLlegadaATerminal(TerminalPortuaria terminal) throws Exception {
+	public LocalDateTime fechaLlegadaATerminal(TerminalPortuaria terminal) {
 		return this.cronograma.fechaLlegadaATerminal(terminal);
 	}
 }

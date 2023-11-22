@@ -1,16 +1,15 @@
 package ar.edu.poo2.tpFinal.busquedaMaritima;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.function.Predicate;
 
 import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
 
 public abstract class FechaCondicion implements BusquedaMaritima {
 
-private Predicate<LocalDate> condicionFecha;
+private Predicate<LocalDateTime> condicionFecha;
 	
-	public FechaCondicion(Predicate<LocalDate> condicionFecha) {
+	public FechaCondicion(Predicate<LocalDateTime> condicionFecha) {
 		this.condicionFecha = condicionFecha;
 	}
 	
@@ -23,6 +22,6 @@ private Predicate<LocalDate> condicionFecha;
 	 * @param viaje el viaje a evaluar la fecha.
 	 * @return la fecha del viaje a evaluar.
 	 */
-	protected abstract LocalDate fechaCondicion(Viaje viaje);
+	protected abstract LocalDateTime fechaCondicion(Viaje viaje);
 
 }

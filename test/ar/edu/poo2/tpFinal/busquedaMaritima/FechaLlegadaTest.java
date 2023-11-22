@@ -6,8 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.function.Predicate;
 
 import org.junit.Before;
@@ -17,16 +16,16 @@ import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
 
 public class FechaLlegadaTest {
 
-	private Predicate<LocalDate> condicionFecha;
+	private Predicate<LocalDateTime> condicionFecha;
 	private Viaje viaje;
-	private LocalDate date;
+	private LocalDateTime date;
 	private FechaLlegada fechaLlegada;
 	
 	@Before
 	public void setup() {
 		condicionFecha = mock(Predicate.class);
 		viaje = mock(Viaje.class);
-		date = mock(LocalDate.class);
+		date = mock(LocalDateTime.class);
 		fechaLlegada = new FechaLlegada(condicionFecha);
 	}
 	

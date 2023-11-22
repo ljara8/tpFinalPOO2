@@ -1,13 +1,13 @@
 package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Arribo {
 	
 	private TerminalPortuaria destino;
-	private LocalDate fechaDeArribo;
+	private LocalDateTime fechaDeArribo;
 	
-	public Arribo(TerminalPortuaria terminal, LocalDate fecha) {
+	public Arribo(TerminalPortuaria terminal, LocalDateTime fecha) {
 		this.destino = terminal;
 		this.fechaDeArribo = fecha;
 	}
@@ -16,7 +16,7 @@ public class Arribo {
 		return this.destino;
 	}
 
-	public LocalDate getFechaDeArribo() {
+	public LocalDateTime getFechaDeArribo() {
 		return this.fechaDeArribo;
 	}
 
