@@ -3,6 +3,12 @@ package ar.edu.poo2.tpFinal.CircuitosNaviera;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+
 import ar.edu.poo2.tpFinal.busquedaMaritima.BusquedaMaritima;
 import ar.edu.poo2.tpFinal.clientes.Cliente;
 import ar.edu.poo2.tpFinal.clientes.Consignee;
