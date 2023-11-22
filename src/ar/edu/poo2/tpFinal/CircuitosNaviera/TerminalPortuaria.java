@@ -2,22 +2,29 @@ package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.function.Function;
 import ar.edu.poo2.tpFinal.busquedaMaritima.BusquedaMaritima;
+import ar.edu.poo2.tpFinal.clientes.Cliente;
+import ar.edu.poo2.tpFinal.clientes.Consignee;
+import ar.edu.poo2.tpFinal.clientes.Shipper;
+import ar.edu.poo2.tpFinal.Buque;
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
-import ar.edu.poo2.tpFinal.Consignee;
 import ar.edu.poo2.tpFinal.EmpresaTransportista;
 import ar.edu.poo2.tpFinal.EntregaTerrestre;
+import ar.edu.poo2.tpFinal.Mail;
+import ar.edu.poo2.tpFinal.MailManager;
+import ar.edu.poo2.tpFinal.ordenes.Orden;
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
+import ar.edu.poo2.tpFinal.ordenes.Turno;
 import ar.edu.poo2.tpFinal.seleccionadorCircuito.SeleccionadorCircuito;
-import ar.edu.poo2.tpFinal.Shipper;
 
 public class TerminalPortuaria {
 
-	private BusquedaMaritima criterio;
-	private SeleccionadorCircuito seleccion;
+	private MailManager mailManager;
+	private BusquedaMaritima busquedaMaritima;
+	private SeleccionadorCircuito seleccionadorCircuito;
 	private List<Naviera> navieras = new ArrayList<Naviera>();
 	private List<Shipper> shippers = new ArrayList<Shipper>();
 	private List<Consignee> consignees = new ArrayList<Consignee>();
@@ -56,13 +63,23 @@ public class TerminalPortuaria {
 		circuitos.add(cm);
 	}
 
-	public void setSeleccionadorCircuito(SeleccionadorCircuito s) {
-		this.seleccion = s;
+	public void setSeleccionadorCircuito(SeleccionadorCircuito seleccionadorCircuito) {
+		this.seleccionadorCircuito = seleccionadorCircuito;
 	}
 
-	public List<CircuitoMaritimo> mejorCircuitoHaciaTerminal(TerminalPortuaria terminal) {
-		return terminal.getCircuitos(); // recorrer lista de circuitos maritimos y retornar la que sea segun el criterio
-										// de busqueda maritima
+	public void setBusquedaMaritima(BusquedaMaritima busquedaMaritima) {
+		this.busquedaMaritima = busquedaMaritima;
+	}
+
+	public List<Viaje> viajesQueCoincidenConBusqueda(BusquedaMaritima busquedaMaritima) {
+		List<Viaje> todosLosViajes = navieras.stream().flatMap(naviera -> naviera.getViajes().stream()).toList();
+		return todosLosViajes.stream().filter(viaje -> busquedaMaritima.evaluar(viaje)).toList();
+	}
+
+	public CircuitoMaritimo mejorCircuitoHaciaTerminal(TerminalPortuaria terminal) {
+		List<CircuitoMaritimo> circuitosQueHacenElRecorrido = navieras.stream()
+				.flatMap(naviera -> naviera.circuitosQuePasanPorTerminales(this, terminal).stream()).toList();
+		return seleccionadorCircuito.mejorCircuitoEntre(circuitosQueHacenElRecorrido);
 	}
 
 	private List<CircuitoMaritimo> getCircuitos() {
@@ -74,20 +91,32 @@ public class TerminalPortuaria {
 					// tarda en la suma de los tramos
 	}
 
+//TEMPLATE METHOD
 	public void exportar(EntregaTerrestre et) {
+		// camion llega carga a Terminal
+		// verificar Horario, camion, chofer informado por Shipper
+		// agregar carga a terminal
 
 	}
 
 	public void importar(EntregaTerrestre et) {
+		// verificar Horario (cobrar excedente si pasa del permitido)
+		// verificar camion, chofer informado por Consignee
+		// retirar carga de terminal
 
 	}
 
-	public void registrarOrdenExportacion(OrdenExportacion orden) {
-		// aca retorna un valor Turno, no un void.Y se calculan a partir de los datos de
-		// la orden
+	public Turno registrarOrdenExportacion(OrdenExportacion orden) {
+		Turno turno = new Turno(orden);
+		// registrar orden
+		this.getOrdenExportaciones().add(orden);
+		// asignar turno shipper
+		return turno;
 	}
 
 	public void registrarOrdenImportacion(OrdenImportacion orden) {
+		// registrar orden
+		this.getOrdenImportaciones().add(orden);
 
 	}
 
@@ -97,6 +126,32 @@ public class TerminalPortuaria {
 
 	public List<OrdenImportacion> getOrdenImportaciones() {
 		return ordenImportaciones;
+	}
+
+	public void notificarSobreLlegadaInminente(Buque buque) {
+		notificarPorEmail(buque, ordenImportaciones, this::enviarMailLlegadaInminenteACliente);
+	}
+
+	public void notificarDesembarque(Buque buque) {
+		notificarPorEmail(buque, ordenExportaciones, this::enviarMailDesembarco);
+	}
+
+	public void notificarPorEmail(Buque buque, List<? extends Orden> ordenes, Function<Cliente, Mail> mapperDeEmail) {
+		ordenes.stream().filter(orden -> {
+			Viaje viaje = orden.getViajeActual();
+			return viaje.getBuque() == buque;
+		}).map(orden -> orden.getCliente()).map(cliente -> mapperDeEmail.apply(cliente))
+				.forEach(mail -> mailManager.enviarMail(mail));
+	}
+
+	private Mail enviarMailLlegadaInminenteACliente(Cliente cliente) {
+		return new Mail("Tu pedido está llegando a la terminal", cliente.getEmail(),
+				"Tu pedido se encuentra a menos de 50km de la terminal. Acércate en breves para reclamarlo");
+	}
+
+	private Mail enviarMailDesembarco(Cliente cliente) {
+		return new Mail("Tu pedido ha salido de la terminal", cliente.getEmail(),
+				"Tu pedido ha zarpado de la terminal y se encuentra a más de un kilómetro de distancia. Mantente al tanto sobre el estado del viaje");
 	}
 
 }
