@@ -29,6 +29,10 @@ public class Naviera {
 	public HashSet<Viaje> getViajes(){
 		return this.viajes;
 	}
+
+	public void agregarBuque(Buque buque) {
+		this.buques.add(buque);
+	}
 	
 	public void agregarViaje(Viaje viaje) {
 		this.viajes.add(viaje);
