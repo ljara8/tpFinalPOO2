@@ -1,3 +1,4 @@
+
 package ar.edu.poo2.tpFinal.clientes;
 
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
@@ -43,4 +44,5 @@ public class Shipper implements Cliente{
 	public void cobrarMonto(double monto) {
 		// Método dummy
 	}
+
 }
