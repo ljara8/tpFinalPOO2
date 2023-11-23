@@ -4,7 +4,7 @@ package ar.edu.poo2.tpFinal.ordenes;
 public class FacturaResponsableViaje extends FacturaSimple {
 	private OrdenImportacion orden;
 
-	FacturaResponsableViaje(Orden orden) {
+	public FacturaResponsableViaje(Orden orden) {
 		super(orden);
 
 	}
