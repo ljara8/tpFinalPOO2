@@ -1,6 +1,10 @@
 package tpFinalPOO2;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -11,47 +15,36 @@ import org.mockito.Mock;
 import ar.edu.poo2.tpFinal.contyserv.Dry;
 
 class TestContainerDry {
-	@Mock
 	private Dry containerDry;
+	private int ancho = 50;
+	private int largo = 20;
+	private int altura = 30;
+	private double peso = 100;
 	private int volumenPromedio;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		containerDry = mock(Dry.class);
-		volumenPromedio = 5000;
+		containerDry = new Dry(ancho, largo, altura, peso);
+		volumenPromedio = 30000;
 
 	}
 
 	@Test
 	void testVolumenContainerMenorAPromedio() {
-		//configuration
-		when(containerDry.calcularVolumen()).thenReturn(4000);
-		
-		
-		
-		assertTrue(containerDry.calcularVolumen() < volumenPromedio );
-		
+		altura = 10;
+		ancho = 20;
+		largo = 30;
+
+		assertFalse(containerDry.calcularVolumen() < volumenPromedio);
+
 	}
 
 	@Test
-	void testVolumenContainerMayorAPromedio() {
-		//configuration
-		when(containerDry.calcularVolumen()).thenReturn(6000);
-		
-		
-		
-		assertTrue(containerDry.calcularVolumen() > volumenPromedio );
-		
+	void testVolumenContainerIgualAPromedio() {
+		int volumen = containerDry.calcularVolumen();
+
+		assertEquals(volumen, volumenPromedio);
+
 	}
 
-	@Test
-	void testVolumenContainerIgualrAPromedio() {
-		//configuration
-		when(containerDry.calcularVolumen()).thenReturn(5000);
-		
-		
-		
-		assertTrue(containerDry.calcularVolumen() == volumenPromedio );
-		
-	}
 }

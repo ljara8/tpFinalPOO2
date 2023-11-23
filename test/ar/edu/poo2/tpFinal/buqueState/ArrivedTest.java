@@ -20,7 +20,7 @@ class ArrivedTest {
 	@BeforeEach
 	void setup() {
 		arrived = new Arrived();
-		buque = mock(Buque.class);
+		buque = mock (Buque.class);
 	}
 
 	@Test

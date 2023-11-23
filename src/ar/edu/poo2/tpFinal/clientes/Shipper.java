@@ -8,7 +8,7 @@ public class Shipper implements Cliente{
 	private String nombre;
 	private OrdenExportacion ordenExp;
 
-	Shipper(String email, String nomb, OrdenExportacion orden) {
+	public Shipper(String email, String nomb, OrdenExportacion orden) {
 		this.email = email;
 		this.nombre = nomb;
 		this.ordenExp = orden;

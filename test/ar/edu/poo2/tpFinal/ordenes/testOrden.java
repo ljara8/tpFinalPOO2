@@ -12,12 +12,14 @@ import org.junit.jupiter.api.Test;
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.*;
+import ar.edu.poo2.tpFinal.clientes.Consignee;
 import ar.edu.poo2.tpFinal.contyserv.Container;
 import ar.edu.poo2.tpFinal.ordenes.Desglose;
 import ar.edu.poo2.tpFinal.ordenes.Orden;
 
 class testOrden {
 	private Orden orden;
+	private Orden orden2;
 	private Container cont;
 	private Container cont2;
 	private Camion camion;
@@ -27,10 +29,14 @@ class testOrden {
 	private Viaje viajeActual;
 	private LocalDateTime fechaLlegada;
 	private LocalDateTime fechaSalida;
+	private FacturaResponsableViaje fact;
+
+	private Consignee cliente;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		orden = mock(Orden.class);
+		orden = new OrdenImportacion(cliente, cont, camion, chofer, viajeActual, fact);
+		orden2 = mock(OrdenImportacion.class);
 		chofer2 = mock(Chofer.class);
 		cont2 = mock(Container.class);
 		camion2 = mock(Camion.class);
@@ -41,78 +47,72 @@ class testOrden {
 
 	@Test
 	void testChoferDeOrden() {
-		when(orden.getChofer()).thenReturn(chofer);
-		
+
 		assertEquals(chofer, orden.getChofer());
 	}
 
 	@Test
 	void testChoferDeOrdenFalse() {
-		when(orden.getChofer()).thenReturn(chofer);
-		
+
 		assertNotEquals(chofer2, orden.getChofer());
 	}
 
 	@Test
 	void testContainerDeOrdenFalse() {
-		when(orden.getContainer()).thenReturn(cont);
-		
+
 		assertNotEquals(cont2, orden.getContainer());
 	}
 
 	@Test
 	void testContainerDeOrden() {
-		when(orden.getContainer()).thenReturn(cont);
-		
+
 		assertEquals(cont, orden.getContainer());
 	}
 
 	@Test
 	void testCamionDeOrden() {
-		when(orden.getCamion()).thenReturn(camion);
-		
+
 		assertEquals(camion, orden.getCamion());
 	}
 
 	@Test
 	void testCamionDeOrdenFalse() {
-		when(orden.getCamion()).thenReturn(camion);
-		
+
 		assertNotEquals(camion2, orden.getCamion());
 	}
 
 	@Test
 	void testFechaLlegada() {
-		when(orden.getFechaLlegadaADestino()).thenReturn(fechaLlegada);
+		when(orden2.getFechaLlegadaADestino()).thenReturn(fechaLlegada);
 		when(viajeActual.getFechaLlegada()).thenReturn(fechaLlegada);
 		
-		assertEquals(orden.getFechaLlegadaADestino(),viajeActual.getFechaLlegada());
+		assertEquals(orden2.getFechaLlegadaADestino(),viajeActual.getFechaLlegada());
 	}
 
 	@Test
 	void testFechaLlegadaFalse() {
-		when(orden.getFechaLlegadaADestino()).thenReturn(fechaLlegada);
+		when(orden2.getFechaLlegadaADestino()).thenReturn(fechaLlegada);
 		when(viajeActual.getFechaLlegada()).thenReturn(fechaSalida);
 		
-		assertNotEquals(orden.getFechaLlegadaADestino(),viajeActual.getFechaLlegada());
+		assertNotEquals(orden2.getFechaLlegadaADestino(),viajeActual.getFechaLlegada());
 	}
 
 	@Test
 	
 	void testFechaSalida() {
-		when(orden.getFechaSalidaADestino()).thenReturn(fechaSalida);
+		when(orden2.getFechaSalidaADestino()).thenReturn(fechaSalida);
 		when(viajeActual.getFechaSalida()).thenReturn(fechaSalida);
 		
-		assertEquals(orden.getFechaSalidaADestino(),viajeActual.getFechaSalida());
+		assertEquals(orden2.getFechaSalidaADestino(),viajeActual.getFechaSalida());
 	}
 
 	@Test
 	
 	void testFechaSalidaFalse() {
-		when(orden.getFechaSalidaADestino()).thenReturn(fechaLlegada);
+		when(orden2.getFechaSalidaADestino()).thenReturn(fechaLlegada);
 		when(viajeActual.getFechaSalida()).thenReturn(fechaSalida);
 		
-		assertNotEquals(orden.getFechaSalidaADestino(),viajeActual.getFechaSalida());
+		assertNotEquals(orden2.getFechaSalidaADestino(),viajeActual.getFechaSalida());
 	}
 
 }

@@ -1,4 +1,5 @@
 package ar.edu.poo2.tpFinal.ordenes;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -6,7 +7,12 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ar.edu.poo2.tpFinal.Camion;
+import ar.edu.poo2.tpFinal.Chofer;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.*;
+import ar.edu.poo2.tpFinal.clientes.Consignee;
+import ar.edu.poo2.tpFinal.clientes.Shipper;
+import ar.edu.poo2.tpFinal.contyserv.Container;
 import ar.edu.poo2.tpFinal.ordenes.FacturaResponsableViaje;
 import ar.edu.poo2.tpFinal.ordenes.FacturaSimple;
 import ar.edu.poo2.tpFinal.ordenes.Orden;
@@ -16,49 +22,34 @@ class testFacturaSimple {
 
 	private FacturaSimple fact;
 	private Orden orden;
-	private Viaje viaje1;
-	private Viaje viaje2;
 	private Orden orden2;
+
+	private Shipper cliente;
+	private String nombre = "Lucio Jara";
+	private String email = "luciojara@gmail.com";
+	private Container cont;
+	private Camion cam;
+	private Chofer chofer;
+	private Viaje viaje;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		fact = mock(FacturaSimple.class);
-		orden = mock(Orden.class);
-		orden2 = mock(Orden.class);
-		viaje1 = mock(Viaje.class);
-		viaje2 = mock(Viaje.class);
+		fact = new FacturaSimple(orden);
+		orden = new OrdenExportacion(cliente, cont, cam, chofer, viaje, fact);
+		orden2 = mock(OrdenExportacion.class);
 	}
 
 	@Test
-	void testMontoTotal() throws Exception {
-		when(fact.getMontoTotalFacturado(orden)).thenReturn(45503.3);
-		when(fact.getMontoTotalFacturado(orden2)).thenReturn(454323.3);
-		
-		assertNotEquals(fact.getMontoTotalFacturado(orden),fact.getMontoTotalFacturado(orden2) );
-	}
+	void testMontoTotalIgualA0() throws Exception {
 
-	@Test
-	void testMontoTotalIgual() throws Exception {
-		when(fact.getMontoTotalFacturado(orden)).thenReturn(45503.3);
-		when(fact.getMontoTotalFacturado(orden2)).thenReturn(45503.3);
-		
-		assertEquals(fact.getMontoTotalFacturado(orden),fact.getMontoTotalFacturado(orden2) );
+		assertEquals(fact.getMontoTotalFacturado(orden), 0);
+
 	}
 
 	@Test
 	void testGetOrden() {
-		when(fact.getOrden()).thenReturn(orden);
-		
-		assertEquals(fact.getOrden(),orden);
-	}
 
-	@Test
-	void testGetOrdenDistinto() {
-		when(fact.getOrden()).thenReturn(orden);
-		
-		assertNotEquals(fact.getOrden(),orden2);
+		assertNotEquals(fact.getOrden(), orden);
 	}
-	
-	
 
 }

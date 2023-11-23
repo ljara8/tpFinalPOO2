@@ -49,8 +49,7 @@ public abstract class Orden {
 		return 0;
 	}
 
-
-	public abstract Factura getFactura();
+	public abstract FacturaSimple getFactura();
 
 	public Container getContainer() {
 		return cont;

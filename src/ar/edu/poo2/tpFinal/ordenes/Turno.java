@@ -9,8 +9,8 @@ import ar.edu.poo2.tpFinal.clientes.Cliente;
 public class Turno {
 	private OrdenExportacion orden;
 
-	public Turno(OrdenExportacion orden) {
-		this.orden = orden;
+	public Turno(OrdenExportacion ordenEx) {
+		this.orden = ordenEx;
 	}
 
 	public LocalDateTime getFechaRecepcion() {
