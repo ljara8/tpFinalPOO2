@@ -7,6 +7,8 @@ public interface Cliente {
 	String getEmail();
 	String nombreCompleto();
 	
+	public void cobrarMonto(double monto);
+	
 	public double abonarFacturacion(OrdenExportacion orden) throws Exception;
 
 	public double abonarFacturacion(OrdenImportacion orden) throws Exception;

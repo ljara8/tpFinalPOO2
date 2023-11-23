@@ -37,6 +37,10 @@ public class TerminalPortuaria {
 	private List<CircuitoMaritimo> circuitos = new ArrayList<CircuitoMaritimo>();
 	private List<OrdenExportacion> ordenExportaciones = new ArrayList<OrdenExportacion>();
 	private List<OrdenImportacion> ordenImportaciones = new ArrayList<OrdenImportacion>();
+	private List<Orden> ordenExportacionesRetiradas = new ArrayList<Orden>();
+	private List<Orden> ordenImportacionesRetiradas = new ArrayList<Orden>();
+	private List<Turno> turnosImportaciones = new ArrayList<>();
+	private List<Turno> turnosExportaciones = new ArrayList<>();
 
 	public void registrarNaviera(Naviera n) {
 		navieras.add(n);
@@ -96,31 +100,51 @@ public class TerminalPortuaria {
 
 //TEMPLATE METHOD
 	public void exportar(EntregaTerrestre et) {
-		// camion llega carga a Terminal
-		// verificar Horario, camion, chofer informado por Shipper
-		// agregar carga a terminal
-
+		Turno turnoDeExportador = 
+				turnosExportaciones.stream()
+					.filter( turno -> 
+						turno.getCamion().equals(et.getCamion()) 
+						&& turno.getChofer() == et.getChofer() 
+						&& turno.estaAHorario(et.getHorarioArribo())
+						&& turno.equals(et.getTurno())
+					)
+					.findFirst()
+					.orElseThrow(() -> new IllegalAccessError("Su entrega no es válida. No cumple los parámetros de seguridad."));
+		turnoDeExportador.getCliente().cobrarMonto(turnoDeExportador.getOrden().getFactura().getMontoTotalFacturado(turnoDeExportador.getOrden()));
+		turnosExportaciones.remove(turnoDeExportador);
+		ordenExportaciones.remove(turnoDeExportador.getOrden());
+		ordenExportacionesRetiradas.add(turnoDeExportador.getOrden());
 	}
 
 	public void importar(EntregaTerrestre et) {
-		// verificar Horario (cobrar excedente si pasa del permitido)
-		// verificar camion, chofer informado por Consignee
-		// retirar carga de terminal
-
+		Turno turnoDeImportador = 
+				turnosImportaciones.stream()
+					.filter( turno -> 
+						turno.getCamion().equals(et.getCamion()) 
+						&& turno.getChofer() == et.getChofer() 
+						&& turno.estaAHorario(et.getHorarioArribo())
+						&& turno.equals(et.getTurno())
+					)
+					.findFirst()
+					.orElseThrow(() -> new IllegalAccessError("Su entrega no es válida. No cumple los parámetros de seguridad."));
+		turnoDeImportador.getCliente().cobrarMonto(turnoDeImportador.getOrden().getFactura().getMontoTotalFacturado(turnoDeImportador.getOrden()));
+		turnosExportaciones.remove(turnoDeImportador);
+		ordenExportaciones.remove(turnoDeImportador.getOrden());
+		ordenImportacionesRetiradas.add(turnoDeImportador.getOrden());
 	}
 
 	public Turno registrarOrdenExportacion(OrdenExportacion orden) {
-		Turno turno = new Turno(orden);
-		// registrar orden
+		Turno turno = new Turno(orden, 12, 3);
 		this.getOrdenExportaciones().add(orden);
-		// asignar turno shipper
+		turnosExportaciones.add(turno);
 		return turno;
 	}
 
-	public void registrarOrdenImportacion(OrdenImportacion orden) {
-		// registrar orden
+	public Turno registrarOrdenImportacion(OrdenImportacion orden) {
+		Turno turno = new Turno(orden, 24, 0);
 		this.getOrdenImportaciones().add(orden);
-
+		turnosImportaciones.add(turno);
+		return turno;
 	}
 
 	public List<OrdenExportacion> getOrdenExportaciones() {

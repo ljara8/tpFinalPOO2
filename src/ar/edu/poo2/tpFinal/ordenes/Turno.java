@@ -1,6 +1,5 @@
 package ar.edu.poo2.tpFinal.ordenes;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import ar.edu.poo2.tpFinal.Camion;
@@ -9,19 +8,23 @@ import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
 import ar.edu.poo2.tpFinal.clientes.Cliente;
 
 public class Turno {
-	private OrdenExportacion orden;
-
-	public Turno(OrdenExportacion orden) {
+	private Orden orden;
+	private int cantidadHorasMargenAtraso;
+	private int cantidadHorasPreviasDeLlegada;
+	
+	public Turno(Orden orden, int cantidadHorasMargenAtraso, int cantidadHorasPreviasDeLlegada) {
 		this.orden = orden;
+		this.cantidadHorasMargenAtraso = cantidadHorasMargenAtraso;
+		this.cantidadHorasPreviasDeLlegada = cantidadHorasPreviasDeLlegada;
 	}
 
-	public LocalDateTime getFechaRecepcion() {
+	public final LocalDateTime getFechaRecepcion() {
 		LocalDateTime fechaLlegada = orden.getFechaLlegadaADestino();
-		LocalDateTime fechaDeEntrega = fechaLlegada.minusHours(12);
+		LocalDateTime fechaDeEntrega = fechaLlegada.minusHours(cantidadHorasPreviasDeLlegada);
 		return fechaDeEntrega;
 	}
 
-	public Cliente getShipper() {
+	public Cliente getCliente() {
 		return orden.getCliente();
 	}
 
@@ -37,8 +40,16 @@ public class Turno {
 		return orden.getCamion();
 	}
 
-	public OrdenExportacion getOrdenExportacion() {
+	public Orden getOrden() {
 		return orden;
+	}
+	
+	public final boolean estaAHorario(LocalDateTime horaDeRecepcion) {
+		return horaDeRecepcion.isBefore(getFechaConHorarioLimite());
+	}
+		
+	public final LocalDateTime getFechaConHorarioLimite() {
+		return getFechaRecepcion().plusHours(cantidadHorasMargenAtraso);
 	}
 
 }
