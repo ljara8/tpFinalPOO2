@@ -159,6 +159,14 @@ public class TerminalPortuaria {
 	public void notificarDesembarque(Buque buque) {
 		notificarPorEmail(buque, getOrdenExportaciones(), this::mailDesembarco);
 	}
+	
+	public List<Orden> getOrdenesExportacionRetiradas() {
+		return ordenesExportacionManager.ordenExportacionesRetiradas();
+	}
+	
+	public List<Orden> getOrdenesImportacionRetiradas() {
+		return ordenesImportacionManager.ordenImportacionesRetiradas();
+	}
 
 	public void notificarPorEmail(Buque buque, List<? extends Orden> ordenes, Function<Cliente, Mail> mapperDeEmail) {
 		ordenes.stream().filter(orden -> {
