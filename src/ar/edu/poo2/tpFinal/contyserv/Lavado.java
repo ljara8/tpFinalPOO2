@@ -6,7 +6,7 @@ public class Lavado extends Servicio {
 	private Container container;
 	private double costoFijo;
 
-	Lavado(Container c, double costo) {
+	public Lavado(Container c, double costo) {
 		this.container = c;
 		this.costoFijo = costo;
 	}
@@ -22,6 +22,11 @@ public class Lavado extends Servicio {
 
 	public boolean superaLaCapacidad() {
 		return this.getContainer().calcularVolumen() >= 70;
+	}
+
+	@Override
+	public Container getContainer() {
+		return container;
 	}
 
 }

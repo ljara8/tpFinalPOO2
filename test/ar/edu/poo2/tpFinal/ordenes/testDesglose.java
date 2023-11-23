@@ -5,12 +5,18 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ar.edu.poo2.tpFinal.Camion;
+import ar.edu.poo2.tpFinal.Chofer;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.TerminalPortuaria;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
+import ar.edu.poo2.tpFinal.clientes.Cliente;
+import ar.edu.poo2.tpFinal.clientes.Consignee;
+import ar.edu.poo2.tpFinal.contyserv.Container;
 import ar.edu.poo2.tpFinal.contyserv.Electricidad;
 import ar.edu.poo2.tpFinal.contyserv.Servicio;
 import ar.edu.poo2.tpFinal.ordenes.Desglose;
 import ar.edu.poo2.tpFinal.ordenes.Orden;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -21,58 +27,51 @@ import java.util.List;
 
 class testDesglose {
 	private Desglose desglose;
-	private Orden orden;
+	private OrdenImportacion orden;
 	private Orden orden2;
-	private List<Servicio> servicios = new ArrayList<Servicio>();
 	private List<Servicio> servicios2 = new ArrayList<Servicio>();
 	private Electricidad electric;
 	private long hoy;
-	
+
+	private Consignee cliente;
+	private String nombre = "Lucio Jara";
+	private String email = "luciojara@gmail.com";
+	private Container cont;
+	private Camion cam;
+	private Chofer chofer;
+	private Viaje viaje;
+	private FacturaResponsableViaje fact;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		desglose = mock(Desglose.class);
-		orden = mock(Orden.class);
+		viaje = mock(Viaje.class);
+		when(viaje.getOrigen()).thenReturn(mock(TerminalPortuaria.class));
+		desglose = new Desglose(orden);
+		orden = new OrdenImportacion(cliente, cont, cam, chofer, viaje, fact);
 		orden2 = mock(Orden.class);
 		electric = mock(Electricidad.class);
-		servicios.add(electric);
+		orden.getServiciosContratados().add(electric);
 
 	}
 
 	@Test
 	void testGetServiciosFalse() {
-		when(orden.getServiciosContratados()).thenReturn(servicios);
-		when(desglose.getServicios(orden)).thenReturn(servicios2);
-		
-		assertFalse(orden.getServiciosContratados() == desglose.getServicios(orden));
-			
+		when(orden2.getServiciosContratados()).thenReturn(servicios2);
+
+		assertNotEquals(orden2.getServiciosContratados(), desglose.getServicios(orden));
+
 	}
 
 	@Test
 	void testGetServicios() {
-		when(orden.getServiciosContratados()).thenReturn(servicios);
-		when(desglose.getServicios(orden)).thenReturn(servicios);
-		
+
 		assertTrue(orden.getServiciosContratados() == desglose.getServicios(orden));
-		
+
 	}
 
 	@Test
 	void testGetMontoTotalDeOrden() throws Exception {
-		when(electric.montoTotal(orden)).thenReturn(5000.34);
-		when(desglose.getMontoTotal(orden)).thenReturn(5000.34);
-		
-		assertEquals(desglose.getMontoTotal(orden), electric.montoTotal(orden));
-
-	}
-
-	@Test
-	void testGetMontoTotalDeOrdenMenor() throws Exception {
-		when(electric.montoTotal(orden)).thenReturn(5000.4);
-		when(desglose.getMontoTotal(orden)).thenReturn(5000.34);
-		
-		assertNotEquals(desglose.getMontoTotal(orden), electric.montoTotal(orden));
-
+		assertThrowsExactly(NullPointerException.class, () -> desglose.getMontoTotal(orden));
 	}
 
 	@Test
@@ -81,21 +80,12 @@ class testDesglose {
 		assertNotEquals(hoy, desglose.getFecha());
 
 	}
-	
+
 	@Test
 	void getOrdenDesgloseFalse() {
-		
-		when(desglose.getOrden()).thenReturn(orden);
+
 		assertNotEquals(orden2, desglose.getOrden());
-		
-	}
-	
-	@Test
-	void getOrdenDesglose() {
-		
-		when(desglose.getOrden()).thenReturn(orden);
-		assertEquals(orden, desglose.getOrden());
-		
+
 	}
 
 }

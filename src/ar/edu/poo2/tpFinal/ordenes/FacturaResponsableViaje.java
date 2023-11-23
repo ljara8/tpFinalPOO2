@@ -1,9 +1,10 @@
+
 package ar.edu.poo2.tpFinal.ordenes;
 
 public class FacturaResponsableViaje extends FacturaSimple {
 	private OrdenImportacion orden;
 
-	FacturaResponsableViaje(Orden orden) {
+	public FacturaResponsableViaje(Orden orden) {
 		super(orden);
 
 	}
@@ -13,7 +14,7 @@ public class FacturaResponsableViaje extends FacturaSimple {
 	}
 
 	@Override
-	public double getMontoTotalFacturado(Orden orden) throws Exception {
+	public double getMontoTotalFacturado(Orden orden) {
 		return orden.getServiciosContratados().stream().mapToDouble(s -> s.montoTotal(orden)).sum()
 				+ orden.getViajeActual().getCircuito().getPrecioTotalRecorrido();
 	}

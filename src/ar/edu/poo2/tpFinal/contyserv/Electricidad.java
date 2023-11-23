@@ -7,7 +7,7 @@ public class Electricidad extends Servicio {
 	private Refeer refe;
 	private int precioFijo;
 
-	Electricidad(Refeer refeer, int precio) {
+	public Electricidad(Refeer refeer, int precio) {
 		this.refe = refeer;
 		this.precioFijo = precio;
 	}

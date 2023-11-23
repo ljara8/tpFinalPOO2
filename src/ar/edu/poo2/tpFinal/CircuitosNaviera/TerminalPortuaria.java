@@ -1,19 +1,12 @@
 package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-
 import ar.edu.poo2.tpFinal.busquedaMaritima.BusquedaMaritima;
 import ar.edu.poo2.tpFinal.clientes.Cliente;
 import ar.edu.poo2.tpFinal.clientes.Consignee;
@@ -28,15 +21,15 @@ import ar.edu.poo2.tpFinal.MailManager;
 import ar.edu.poo2.tpFinal.ordenes.Orden;
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
+import ar.edu.poo2.tpFinal.ordenes.OrdenesExportacionManager;
+import ar.edu.poo2.tpFinal.ordenes.OrdenesImportacionManager;
 import ar.edu.poo2.tpFinal.ordenes.Turno;
 import ar.edu.poo2.tpFinal.seleccionadorCircuito.SeleccionadorCircuito;
 
 public class TerminalPortuaria {
 
 	private MailManager mailManager;
-	private BusquedaMaritima busquedaMaritima;
 	private SeleccionadorCircuito seleccionadorCircuito;
-
 	private HashSet<Naviera> navieras = new HashSet<Naviera>();
 	private HashSet<Shipper> shippers = new HashSet<Shipper>();
 	private HashSet<Consignee> consignees = new HashSet<Consignee>();
@@ -44,9 +37,15 @@ public class TerminalPortuaria {
 	private HashSet<Camion> camiones = new HashSet<Camion>();
 	private HashSet<Chofer> choferes = new HashSet<Chofer>();
 	private HashSet<CircuitoMaritimo> circuitos = new HashSet<CircuitoMaritimo>();
-	private HashSet<OrdenExportacion> ordenExportaciones = new HashSet<OrdenExportacion>();
-	private HashSet<OrdenImportacion> ordenImportaciones = new HashSet<OrdenImportacion>();
+	private OrdenesExportacionManager ordenesExportacionManager;
+	private OrdenesImportacionManager ordenesImportacionManager;
 
+	public TerminalPortuaria(MailManager mailManager, SeleccionadorCircuito seleccionadorCircuito) {
+		this.mailManager = mailManager;
+		this.seleccionadorCircuito = seleccionadorCircuito;
+		ordenesImportacionManager = new OrdenesImportacionManager();
+		ordenesExportacionManager = new OrdenesExportacionManager();
+	}
 
 	public void registrarNaviera(Naviera n) {
 		verificarSiEsNavieraCorrecta(n);
@@ -72,11 +71,25 @@ public class TerminalPortuaria {
 	}
 
 	public void registrarCamion(Camion c) {
+		verificarSiEstaRegistradoCamion(c);
 		camiones.add(c);
 	}
 
+	private void verificarSiEstaRegistradoCamion(Camion c) {
+		if(!this.empresasTransportistas.stream().anyMatch(e->e.estaCamionEnEmpresa(c))) {
+			throw new NoSuchElementException("Camion no registrado en ninguna empresa");
+		}
+	}
+
 	public void registrarChofer(Chofer c) {
+		verificarSiEstaRegistradoChofer(c);
 		choferes.add(c);
+	}
+
+	private void verificarSiEstaRegistradoChofer(Chofer c) {
+		if(!this.empresasTransportistas.stream().anyMatch(e->e.estaChoferEnEmpresa(c))) {
+			throw new NoSuchElementException("Chofer no registrado en ninguna empresa");
+		}
 	}
 
 	public void registrarCircuitoMaritimo(CircuitoMaritimo cm) {
@@ -94,10 +107,6 @@ public class TerminalPortuaria {
 		this.seleccionadorCircuito = seleccionadorCircuito;
 	}
 
-	public void setBusquedaMaritima(BusquedaMaritima busquedaMaritima) {
-		this.busquedaMaritima = busquedaMaritima;
-	}
-
 	public List<Viaje> viajesQueCoincidenConBusqueda(BusquedaMaritima busquedaMaritima) {
 		List<Viaje> todosLosViajes = navieras.stream().flatMap(naviera -> naviera.getViajes().stream()).toList();
 		return todosLosViajes.stream().filter(viaje -> busquedaMaritima.evaluar(viaje)).toList();
@@ -113,77 +122,87 @@ public class TerminalPortuaria {
 		return circuitos;
 	}
 
-	public int cuantoTardaEnLlegarNavieraADestino(Naviera n, TerminalPortuaria destino) throws Exception {
-		return n.cuantoTardaEnLlegarNaviera(this, destino);
+	public int cuantoTardaEnLlegarNavieraADestino(TerminalPortuaria destino)  {
+		return this.navieras.stream()
+				.filter(n->n.tieneCircuitoConTrayecto(this, destino))
+				.mapToInt(n->n.cuantoTardaEnLlegarNaviera(this, destino))
+				.min()
+				.orElseThrow(()-> new NoSuchElementException("No hay trayecto entre estas terminales"));
 	}
 	
 	public LocalDateTime proximaFechaDePartidaHaciaDestino(TerminalPortuaria destino) {
 		return this.navieras.stream()
-				.filter(n->n.tieneCircuitoConTrayecto(destino, destino))
+				.filter(n->n.tieneCircuitoConTrayecto(this, destino))
 				.map(n->n.proximaFechaDePartidaADestino(this, destino))
 				.min(LocalDateTime::compareTo)
 				.orElseThrow(()-> new NoSuchElementException("No hay trayecto entre estas terminales"));
 	}
 
-//TEMPLATE METHOD
-	public void exportar(EntregaTerrestre et) {
-		// camion llega carga a Terminal
-		// verificar Horario, camion, chofer informado por Shipper
-		// agregar carga a terminal
-
+	public void exportar(EntregaTerrestre et) throws IllegalAccessException {
+		Turno turnoDeExportador = ordenesExportacionManager.encontrarTurnoPorEntregaTerrestre(et);
+		turnoDeExportador.proseguirExportacionConEntrega(et, ordenesExportacionManager);
 	}
 
-	public void importar(EntregaTerrestre et) {
-		// verificar Horario (cobrar excedente si pasa del permitido)
-		// verificar camion, chofer informado por Consignee
-		// retirar carga de terminal
-
+	public void importar(EntregaTerrestre et) throws IllegalAccessException {
+		Turno turnoDeImportador = ordenesImportacionManager.encontrarTurnoPorEntregaTerrestre(et);
+		turnoDeImportador.proseguirImportacionConEntrega(et, ordenesImportacionManager);
 	}
 
 	public Turno registrarOrdenExportacion(OrdenExportacion orden) {
-		Turno turno = new Turno(orden);
-		// registrar orden
-		this.getOrdenExportaciones().add(orden);
-		// asignar turno shipper
+		Turno turno = new Turno(orden, 12, 3);
+		ordenesExportacionManager.agregarOrdenExportacion(orden);
+		ordenesExportacionManager.agregarTurnoExportacion(turno);
 		return turno;
 	}
 
-	public void registrarOrdenImportacion(OrdenImportacion orden) {
-		// registrar orden
-		this.getOrdenImportaciones().add(orden);
-
+	public Turno registrarOrdenImportacion(OrdenImportacion orden) {
+		Turno turno = new Turno(orden, 24, 0);
+		ordenesImportacionManager.agregarOrdenImportacion(orden);
+		ordenesImportacionManager.agregarTurnoImportacion(turno);
+		return turno;
 	}
 
-	public HashSet<OrdenExportacion> getOrdenExportaciones() {
-		return ordenExportaciones;
+	public List<OrdenExportacion> getOrdenExportaciones() {
+		return ordenesExportacionManager.ordenExportaciones();
 	}
 
-	public HashSet<OrdenImportacion> getOrdenImportaciones() {
-		return ordenImportaciones;
+	public List<OrdenImportacion> getOrdenImportaciones() {
+		return ordenesImportacionManager.ordenImportaciones();
 	}
 
 	public void notificarSobreLlegadaInminente(Buque buque) {
-		notificarPorEmail(buque, ordenImportaciones, this::enviarMailLlegadaInminenteACliente);
+		notificarPorEmail(buque, getOrdenImportaciones(), this::mailLlegadaInminenteACliente);
 	}
 
 	public void notificarDesembarque(Buque buque) {
-		notificarPorEmail(buque, ordenExportaciones, this::enviarMailDesembarco);
+		notificarPorEmail(buque, getOrdenExportaciones(), this::mailDesembarco);
+	}
+	
+	public List<Orden> getOrdenesExportacionRetiradas() {
+		return ordenesExportacionManager.ordenExportacionesRetiradas();
+	}
+	
+	public List<Orden> getOrdenesImportacionRetiradas() {
+		return ordenesImportacionManager.ordenImportacionesRetiradas();
 	}
 
-	public void notificarPorEmail(Buque buque, HashSet<? extends Orden> ordenes, Function<Cliente, Mail> mapperDeEmail) {
+	public void notificarPorEmail(Buque buque, List<? extends Orden> ordenes, Function<Cliente, Mail> mapperDeEmail) {
 		ordenes.stream().filter(orden -> {
 			Viaje viaje = orden.getViajeActual();
 			return viaje.getBuque() == buque;
-		}).map(orden -> orden.getCliente()).map(cliente -> mapperDeEmail.apply(cliente))
-				.forEach(mail -> mailManager.enviarMail(mail));
+		}).forEach(orden -> { 
+				Cliente cliente = orden.getCliente();
+				mailManager.enviarMailConFactura(mapperDeEmail.apply(cliente), orden.getFactura());
+			}
+		);
 	}
 
-	private Mail enviarMailLlegadaInminenteACliente(Cliente cliente) {
+	private Mail mailLlegadaInminenteACliente(Cliente cliente) {
 		return new Mail("Tu pedido está llegando a la terminal", cliente.getEmail(),
 				"Tu pedido se encuentra a menos de 50km de la terminal. Acércate en breves para reclamarlo");
 	}
 
-	private Mail enviarMailDesembarco(Cliente cliente) {
+	private Mail mailDesembarco(Cliente cliente) {
 		return new Mail("Tu pedido ha salido de la terminal", cliente.getEmail(),
 				"Tu pedido ha zarpado de la terminal y se encuentra a más de un kilómetro de distancia. Mantente al tanto sobre el estado del viaje");
 	}

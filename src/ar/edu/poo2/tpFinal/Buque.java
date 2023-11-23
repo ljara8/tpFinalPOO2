@@ -1,12 +1,13 @@
 package ar.edu.poo2.tpFinal;
 
 import ar.edu.poo2.tpFinal.CircuitosNaviera.TerminalPortuaria;
+import ar.edu.poo2.tpFinal.GPS.Localizable;
 import ar.edu.poo2.tpFinal.buqueState.BuqueState;
 import ar.edu.poo2.tpFinal.buqueState.Outbound;
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 
-public class Buque {
-	
+public class Buque implements Localizable {
+
 	private BuqueState buqueState;
 	private OrdenExportacion ordenExportacion;
 
@@ -32,5 +33,10 @@ public class Buque {
 		TerminalPortuaria destino = ordenExportacion.getTerminalDestino();
 		destino.notificarDesembarque(this);
 	}
-	
+
+	@Override
+	public void actualizarDistanciaDestino(double distancia) {
+		buqueState.actualizarDistanciaDestino(distancia, this);
+	}
+
 }
