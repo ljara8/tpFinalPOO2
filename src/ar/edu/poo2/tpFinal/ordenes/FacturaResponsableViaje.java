@@ -17,5 +17,4 @@ public class FacturaResponsableViaje extends FacturaSimple {
 		return orden.getServiciosContratados().stream().mapToDouble(s -> s.montoTotal(orden)).sum()
 				+ orden.getViajeActual().getCircuito().getPrecioTotalRecorrido();
 	}
-
 }

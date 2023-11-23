@@ -21,12 +21,35 @@ class TramoTest {
 	
 	@BeforeEach
 	public void setUp() {
-		
 		primeraTerminal = new TerminalPortuaria(mock(MailManager.class), mock(SeleccionadorCircuito.class));
 		segundaTerminal = new TerminalPortuaria(mock(MailManager.class), mock(SeleccionadorCircuito.class));
 		terceraTerminal = new TerminalPortuaria(mock(MailManager.class), mock(SeleccionadorCircuito.class));
 		primerTramo = new Tramo(primeraTerminal, segundaTerminal, 300, 3);
 		segundoTramo = new Tramo(segundaTerminal, terceraTerminal, 250, 2);
+	}
+	
+	@Test
+	void testTiempoCorrecto() {
+		
+		assertEquals(2, segundoTramo.getTiempo());
+	}
+	
+	@Test
+	void testTiempoIncorrecto() {
+		
+		assertNotEquals(5, segundoTramo.getTiempo());
+	}
+	
+	@Test
+	void testPrecioCorrcto() {
+		
+		assertEquals(300, primerTramo.getPrecio());
+	}
+	
+	@Test
+	void testPrecioIncorrcto() {
+		
+		assertNotEquals(200, primerTramo.getPrecio());
 	}
 	
 	@Test

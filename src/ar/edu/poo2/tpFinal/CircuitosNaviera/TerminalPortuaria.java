@@ -1,10 +1,18 @@
 package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 
 import ar.edu.poo2.tpFinal.busquedaMaritima.BusquedaMaritima;
 import ar.edu.poo2.tpFinal.clientes.Cliente;
@@ -27,19 +35,19 @@ public class TerminalPortuaria {
 
 	private MailManager mailManager;
 	private SeleccionadorCircuito seleccionadorCircuito;
-	private List<Naviera> navieras = new ArrayList<Naviera>();
-	private List<Shipper> shippers = new ArrayList<Shipper>();
-	private List<Consignee> consignees = new ArrayList<Consignee>();
-	private List<EmpresaTransportista> empresasTransportistas = new ArrayList<EmpresaTransportista>();
-	private List<Camion> camiones = new ArrayList<Camion>();
-	private List<Chofer> choferes = new ArrayList<Chofer>();
-	private List<CircuitoMaritimo> circuitos = new ArrayList<CircuitoMaritimo>();
-	private List<OrdenExportacion> ordenExportaciones = new ArrayList<OrdenExportacion>();
-	private List<OrdenImportacion> ordenImportaciones = new ArrayList<OrdenImportacion>();
-	private List<Orden> ordenExportacionesRetiradas = new ArrayList<Orden>();
-	private List<Orden> ordenImportacionesRetiradas = new ArrayList<Orden>();
-	private List<Turno> turnosImportaciones = new ArrayList<>();
-	private List<Turno> turnosExportaciones = new ArrayList<>();
+	private HashSet<Naviera> navieras = new HashSet<Naviera>();
+	private HashSet<Shipper> shippers = new HashSet<Shipper>();
+	private HashSet<Consignee> consignees = new HashSet<Consignee>();
+	private HashSet<EmpresaTransportista> empresasTransportistas = new HashSet<EmpresaTransportista>();
+	private HashSet<Camion> camiones = new HashSet<Camion>();
+	private HashSet<Chofer> choferes = new HashSet<Chofer>();
+	private HashSet<CircuitoMaritimo> circuitos = new HashSet<CircuitoMaritimo>();
+	private HashSet<OrdenExportacion> ordenExportaciones = new HashSet<OrdenExportacion>();
+	private HashSet<OrdenImportacion> ordenImportaciones = new HashSet<OrdenImportacion>();
+	private HashSet<Orden> ordenExportacionesRetiradas = new HashSet<Orden>();
+	private HashSet<Orden> ordenImportacionesRetiradas = new HashSet<Orden>();
+	private HashSet<Turno> turnosImportaciones = new HashSet<>();
+	private HashSet<Turno> turnosExportaciones = new HashSet<>();
 
 	public TerminalPortuaria(MailManager mailManager, SeleccionadorCircuito seleccionadorCircuito) {
 		this.mailManager = mailManager;
@@ -47,7 +55,14 @@ public class TerminalPortuaria {
 	}
 
 	public void registrarNaviera(Naviera n) {
+		verificarSiEsNavieraCorrecta(n);
 		navieras.add(n);
+	}
+	
+	private void verificarSiEsNavieraCorrecta(Naviera n) {
+		if(!n.tieneCircuitoConTerminal(this)) {
+			throw new NoSuchElementException("Terminal no registrada en la naviera");
+		}
 	}
 
 	public void registrarShipper(Shipper s) {
@@ -71,9 +86,16 @@ public class TerminalPortuaria {
 	}
 
 	public void registrarCircuitoMaritimo(CircuitoMaritimo cm) {
+		verificarSiEsCircuitoCorrecto(cm);
 		circuitos.add(cm);
 	}
-
+	
+	private void verificarSiEsCircuitoCorrecto(CircuitoMaritimo cm) {
+		if(!cm.tieneTerminalEnTrayecto(this)) {
+			throw new NoSuchElementException("Terminal no registrada en el circuito");
+		}
+	}
+	
 	public void setSeleccionadorCircuito(SeleccionadorCircuito seleccionadorCircuito) {
 		this.seleccionadorCircuito = seleccionadorCircuito;
 	}
@@ -89,13 +111,20 @@ public class TerminalPortuaria {
 		return seleccionadorCircuito.mejorCircuitoEntre(circuitosQueHacenElRecorrido);
 	}
 
-	private List<CircuitoMaritimo> getCircuitos() {
+	private HashSet<CircuitoMaritimo> getCircuitos() {
 		return circuitos;
 	}
 
-	public int cuantoTardaEnLlegarNavieraADestino(Naviera n, TerminalPortuaria destino) {
-		return 0; // recorrido sobre circuitos de la naviera dada y retornar la que menor tiempo
-					// tarda en la suma de los tramos
+	public int cuantoTardaEnLlegarNavieraADestino(Naviera n, TerminalPortuaria destino) throws Exception {
+		return n.cuantoTardaEnLlegarNaviera(this, destino);
+	}
+	
+	public LocalDateTime proximaFechaDePartidaHaciaDestino(TerminalPortuaria destino) {
+		return this.navieras.stream()
+				.filter(n->n.tieneCircuitoConTrayecto(destino, destino))
+				.map(n->n.proximaFechaDePartidaADestino(this, destino))
+				.min(LocalDateTime::compareTo)
+				.orElseThrow(()-> new NoSuchElementException("No hay trayecto entre estas terminales"));
 	}
 
 	public void exportar(EntregaTerrestre et) throws IllegalAccessException {
@@ -146,11 +175,11 @@ public class TerminalPortuaria {
 		return turno;
 	}
 
-	public List<OrdenExportacion> getOrdenExportaciones() {
+	public HashSet<OrdenExportacion> getOrdenExportaciones() {
 		return ordenExportaciones;
 	}
 
-	public List<OrdenImportacion> getOrdenImportaciones() {
+	public HashSet<OrdenImportacion> getOrdenImportaciones() {
 		return ordenImportaciones;
 	}
 
@@ -162,7 +191,7 @@ public class TerminalPortuaria {
 		notificarPorEmail(buque, ordenExportaciones, this::enviarMailDesembarco);
 	}
 
-	public void notificarPorEmail(Buque buque, List<? extends Orden> ordenes, Function<Cliente, Mail> mapperDeEmail) {
+	public void notificarPorEmail(Buque buque, HashSet<? extends Orden> ordenes, Function<Cliente, Mail> mapperDeEmail) {
 		ordenes.stream().filter(orden -> {
 			Viaje viaje = orden.getViajeActual();
 			return viaje.getBuque() == buque;
