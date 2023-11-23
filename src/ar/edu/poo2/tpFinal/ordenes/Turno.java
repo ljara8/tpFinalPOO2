@@ -7,10 +7,14 @@ import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
 import ar.edu.poo2.tpFinal.clientes.Cliente;
 
 public class Turno {
-	private OrdenExportacion orden;
+	private Orden orden;
+	private int cantidadHorasMargenAtraso;
+	private int cantidadHorasPreviasDeLlegada;
 
-	public Turno(OrdenExportacion orden) {
+	public Turno(Orden orden, int cantidadHorasMargenAtraso, int cantidadHorasPreviasDeLlegada) {
 		this.orden = orden;
+		this.cantidadHorasMargenAtraso = cantidadHorasMargenAtraso;
+		this.cantidadHorasPreviasDeLlegada = cantidadHorasPreviasDeLlegada;
 	}
 
 	public LocalDateTime getFechaRecepcion() {
@@ -30,13 +34,25 @@ public class Turno {
 	public Chofer getChofer() {
 		return orden.getChofer();
 	}
+	
+	public Orden getOrden() {
+		return orden;
+	}
 
 	public Camion getCamion() {
 		return orden.getCamion();
 	}
+	
+	public Cliente getCliente() {
+		return orden.getCliente();
+	}
+	
+	public final boolean estaAHorario(LocalDateTime horaDeRecepcion) {
+		return horaDeRecepcion.isBefore(getFechaConHorarioLimite());
+	}
 
-	public OrdenExportacion getOrdenExportacion() {
-		return orden;
+	public final LocalDateTime getFechaConHorarioLimite() {
+		return getFechaRecepcion().plusHours(cantidadHorasMargenAtraso);
 	}
 
 }

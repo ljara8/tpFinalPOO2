@@ -34,9 +34,7 @@ import ar.edu.poo2.tpFinal.seleccionadorCircuito.SeleccionadorCircuito;
 public class TerminalPortuaria {
 
 	private MailManager mailManager;
-	private BusquedaMaritima busquedaMaritima;
 	private SeleccionadorCircuito seleccionadorCircuito;
-
 	private HashSet<Naviera> navieras = new HashSet<Naviera>();
 	private HashSet<Shipper> shippers = new HashSet<Shipper>();
 	private HashSet<Consignee> consignees = new HashSet<Consignee>();
@@ -46,7 +44,15 @@ public class TerminalPortuaria {
 	private HashSet<CircuitoMaritimo> circuitos = new HashSet<CircuitoMaritimo>();
 	private HashSet<OrdenExportacion> ordenExportaciones = new HashSet<OrdenExportacion>();
 	private HashSet<OrdenImportacion> ordenImportaciones = new HashSet<OrdenImportacion>();
+	private HashSet<Orden> ordenExportacionesRetiradas = new HashSet<Orden>();
+	private HashSet<Orden> ordenImportacionesRetiradas = new HashSet<Orden>();
+	private HashSet<Turno> turnosImportaciones = new HashSet<>();
+	private HashSet<Turno> turnosExportaciones = new HashSet<>();
 
+	public TerminalPortuaria(MailManager mailManager, SeleccionadorCircuito seleccionadorCircuito) {
+		this.mailManager = mailManager;
+		this.seleccionadorCircuito = seleccionadorCircuito;
+	}
 
 	public void registrarNaviera(Naviera n) {
 		verificarSiEsNavieraCorrecta(n);
@@ -94,10 +100,6 @@ public class TerminalPortuaria {
 		this.seleccionadorCircuito = seleccionadorCircuito;
 	}
 
-	public void setBusquedaMaritima(BusquedaMaritima busquedaMaritima) {
-		this.busquedaMaritima = busquedaMaritima;
-	}
-
 	public List<Viaje> viajesQueCoincidenConBusqueda(BusquedaMaritima busquedaMaritima) {
 		List<Viaje> todosLosViajes = navieras.stream().flatMap(naviera -> naviera.getViajes().stream()).toList();
 		return todosLosViajes.stream().filter(viaje -> busquedaMaritima.evaluar(viaje)).toList();
@@ -125,33 +127,52 @@ public class TerminalPortuaria {
 				.orElseThrow(()-> new NoSuchElementException("No hay trayecto entre estas terminales"));
 	}
 
-//TEMPLATE METHOD
-	public void exportar(EntregaTerrestre et) {
-		// camion llega carga a Terminal
-		// verificar Horario, camion, chofer informado por Shipper
-		// agregar carga a terminal
-
+	public void exportar(EntregaTerrestre et) throws IllegalAccessException {
+		Turno turnoDeExportador = 
+				turnosExportaciones.stream()
+					.filter( turno -> 
+						turno.getCamion().equals(et.getCamion()) 
+						&& turno.getChofer() == et.getChofer() 
+						&& turno.estaAHorario(et.getHorarioArribo())
+						&& turno.equals(et.getTurno())
+					)
+					.findFirst()
+					.orElseThrow(() -> new IllegalAccessException("Su entrega no es válida. No cumple los parámetros de seguridad."));
+		turnoDeExportador.getCliente().cobrarMonto(turnoDeExportador.getOrden().getFactura().getMontoTotalFacturado(turnoDeExportador.getOrden()));
+		turnosExportaciones.remove(turnoDeExportador);
+		ordenExportaciones.remove(turnoDeExportador.getOrden());
+		ordenExportacionesRetiradas.add(turnoDeExportador.getOrden());
 	}
 
-	public void importar(EntregaTerrestre et) {
-		// verificar Horario (cobrar excedente si pasa del permitido)
-		// verificar camion, chofer informado por Consignee
-		// retirar carga de terminal
-
+	public void importar(EntregaTerrestre et) throws IllegalAccessException {
+		Turno turnoDeImportador = 
+				turnosImportaciones.stream()
+					.filter( turno -> 
+						turno.getCamion().equals(et.getCamion()) 
+						&& turno.getChofer() == et.getChofer() 
+						&& turno.estaAHorario(et.getHorarioArribo())
+						&& turno.equals(et.getTurno())
+					)
+					.findFirst()
+					.orElseThrow(() -> new IllegalAccessException("Su entrega no es válida. No cumple los parámetros de seguridad."));
+		turnoDeImportador.getCliente().cobrarMonto(turnoDeImportador.getOrden().getFactura().getMontoTotalFacturado(turnoDeImportador.getOrden()));
+		turnosExportaciones.remove(turnoDeImportador);
+		ordenExportaciones.remove(turnoDeImportador.getOrden());
+		ordenImportacionesRetiradas.add(turnoDeImportador.getOrden());
 	}
 
 	public Turno registrarOrdenExportacion(OrdenExportacion orden) {
-		Turno turno = new Turno(orden);
-		// registrar orden
+		Turno turno = new Turno(orden, 12, 3);
 		this.getOrdenExportaciones().add(orden);
-		// asignar turno shipper
+		turnosExportaciones.add(turno);
 		return turno;
 	}
 
-	public void registrarOrdenImportacion(OrdenImportacion orden) {
-		// registrar orden
+	public Turno registrarOrdenImportacion(OrdenImportacion orden) {
+		Turno turno = new Turno(orden, 24, 0);
 		this.getOrdenImportaciones().add(orden);
-
+		turnosImportaciones.add(turno);
+		return turno;
 	}
 
 	public HashSet<OrdenExportacion> getOrdenExportaciones() {
