@@ -59,16 +59,16 @@ class testTurno {
 
 	@Test
 	void testCliente() {
-		when(turno.getShipper()).thenReturn(cliente);
+		when(turno.getCliente()).thenReturn(cliente);
 		
-		assertEquals(turno.getShipper(), cliente);
+		assertEquals(turno.getCliente(), cliente);
 	}
 
 	@Test
 	void testClienteFalse() {
-		when(turno.getShipper()).thenReturn(cliente);
+		when(turno.getCliente()).thenReturn(cliente);
 		
-		assertNotEquals(turno.getShipper(), cliente2);
+		assertNotEquals(turno.getCliente(), cliente2);
 	}
 
 	@Test
