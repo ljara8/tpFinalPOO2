@@ -1,12 +1,15 @@
 package tpFinalPOO2tpFinal;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ar.edu.poo2.tpFinal.MailManager;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.TerminalPortuaria;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.Tramo;
+import ar.edu.poo2.tpFinal.seleccionadorCircuito.SeleccionadorCircuito;
 
 class TramoTest {
 	
@@ -19,9 +22,9 @@ class TramoTest {
 	@BeforeEach
 	public void setUp() {
 		
-		primeraTerminal = new TerminalPortuaria();
-		segundaTerminal = new TerminalPortuaria();
-		terceraTerminal = new TerminalPortuaria();
+		primeraTerminal = new TerminalPortuaria(mock(MailManager.class), mock(SeleccionadorCircuito.class));
+		segundaTerminal = new TerminalPortuaria(mock(MailManager.class), mock(SeleccionadorCircuito.class));
+		terceraTerminal = new TerminalPortuaria(mock(MailManager.class), mock(SeleccionadorCircuito.class));
 		primerTramo = new Tramo(primeraTerminal, segundaTerminal, 300, 3);
 		segundoTramo = new Tramo(segundaTerminal, terceraTerminal, 250, 2);
 	}

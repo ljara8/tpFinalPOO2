@@ -1,3 +1,4 @@
+package terminalPortuaria;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -21,7 +22,7 @@ import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.Turno;
 import ar.edu.poo2.tpFinal.seleccionadorCircuito.SeleccionadorCircuito;
 
-class TerminalPortuariaTest {
+class TerminalPortuariaExportacionTest {
 
 	private TerminalPortuaria terminalPortuaria;
 	private EntregaTerrestre entregaTerrestre;
