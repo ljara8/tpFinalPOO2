@@ -1,19 +1,12 @@
 package ar.edu.poo2.tpFinal.CircuitosNaviera;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-
 import ar.edu.poo2.tpFinal.busquedaMaritima.BusquedaMaritima;
 import ar.edu.poo2.tpFinal.clientes.Cliente;
 import ar.edu.poo2.tpFinal.clientes.Consignee;
@@ -28,6 +21,8 @@ import ar.edu.poo2.tpFinal.MailManager;
 import ar.edu.poo2.tpFinal.ordenes.Orden;
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
+import ar.edu.poo2.tpFinal.ordenes.OrdenesExportacionManager;
+import ar.edu.poo2.tpFinal.ordenes.OrdenesImportacionManager;
 import ar.edu.poo2.tpFinal.ordenes.Turno;
 import ar.edu.poo2.tpFinal.seleccionadorCircuito.SeleccionadorCircuito;
 
@@ -42,16 +37,14 @@ public class TerminalPortuaria {
 	private HashSet<Camion> camiones = new HashSet<Camion>();
 	private HashSet<Chofer> choferes = new HashSet<Chofer>();
 	private HashSet<CircuitoMaritimo> circuitos = new HashSet<CircuitoMaritimo>();
-	private HashSet<OrdenExportacion> ordenExportaciones = new HashSet<OrdenExportacion>();
-	private HashSet<OrdenImportacion> ordenImportaciones = new HashSet<OrdenImportacion>();
-	private HashSet<Orden> ordenExportacionesRetiradas = new HashSet<Orden>();
-	private HashSet<Orden> ordenImportacionesRetiradas = new HashSet<Orden>();
-	private HashSet<Turno> turnosImportaciones = new HashSet<>();
-	private HashSet<Turno> turnosExportaciones = new HashSet<>();
+	private OrdenesExportacionManager ordenesExportacionManager;
+	private OrdenesImportacionManager ordenesImportacionManager;
 
 	public TerminalPortuaria(MailManager mailManager, SeleccionadorCircuito seleccionadorCircuito) {
 		this.mailManager = mailManager;
 		this.seleccionadorCircuito = seleccionadorCircuito;
+		ordenesImportacionManager = new OrdenesImportacionManager();
+		ordenesExportacionManager = new OrdenesExportacionManager();
 	}
 
 	public void registrarNaviera(Naviera n) {
@@ -128,70 +121,54 @@ public class TerminalPortuaria {
 	}
 
 	public void exportar(EntregaTerrestre et) throws IllegalAccessException {
-		Turno turnoDeExportador = 
-				turnosExportaciones.stream()
-					.filter( turno -> 
-						turno.getCamion().equals(et.getCamion()) 
-						&& turno.getChofer() == et.getChofer() 
-						&& turno.estaAHorario(et.getHorarioArribo())
-						&& turno.equals(et.getTurno())
-					)
-					.findFirst()
-					.orElseThrow(() -> new IllegalAccessException("Su entrega no es válida. No cumple los parámetros de seguridad."));
-		turnoDeExportador.getCliente().cobrarMonto(turnoDeExportador.getOrden().getFactura().getMontoTotalFacturado(turnoDeExportador.getOrden()));
-		turnosExportaciones.remove(turnoDeExportador);
-		ordenExportaciones.remove(turnoDeExportador.getOrden());
-		ordenExportacionesRetiradas.add(turnoDeExportador.getOrden());
+		Turno turnoDeExportador = ordenesExportacionManager.encontrarTurnoPorEntregaTerrestre(et);
+		turnoDeExportador.proseguirExportacionConEntrega(et, ordenesExportacionManager);
 	}
 
 	public void importar(EntregaTerrestre et) throws IllegalAccessException {
-		Turno turnoDeImportador = 
-				turnosImportaciones.stream()
-					.filter( turno -> 
-						turno.getCamion().equals(et.getCamion()) 
-						&& turno.getChofer() == et.getChofer() 
-						&& turno.estaAHorario(et.getHorarioArribo())
-						&& turno.equals(et.getTurno())
-					)
-					.findFirst()
-					.orElseThrow(() -> new IllegalAccessException("Su entrega no es válida. No cumple los parámetros de seguridad."));
-		turnoDeImportador.getCliente().cobrarMonto(turnoDeImportador.getOrden().getFactura().getMontoTotalFacturado(turnoDeImportador.getOrden()));
-		turnosExportaciones.remove(turnoDeImportador);
-		ordenExportaciones.remove(turnoDeImportador.getOrden());
-		ordenImportacionesRetiradas.add(turnoDeImportador.getOrden());
+		Turno turnoDeImportador = ordenesImportacionManager.encontrarTurnoPorEntregaTerrestre(et);
+		turnoDeImportador.proseguirImportacionConEntrega(et, ordenesImportacionManager);
 	}
 
 	public Turno registrarOrdenExportacion(OrdenExportacion orden) {
 		Turno turno = new Turno(orden, 12, 3);
-		this.getOrdenExportaciones().add(orden);
-		turnosExportaciones.add(turno);
+		ordenesExportacionManager.agregarOrdenExportacion(orden);
+		ordenesExportacionManager.agregarTurnoExportacion(turno);
 		return turno;
 	}
 
 	public Turno registrarOrdenImportacion(OrdenImportacion orden) {
 		Turno turno = new Turno(orden, 24, 0);
-		this.getOrdenImportaciones().add(orden);
-		turnosImportaciones.add(turno);
+		ordenesImportacionManager.agregarOrdenImportacion(orden);
+		ordenesImportacionManager.agregarTurnoImportacion(turno);
 		return turno;
 	}
 
-	public HashSet<OrdenExportacion> getOrdenExportaciones() {
-		return ordenExportaciones;
+	public List<OrdenExportacion> getOrdenExportaciones() {
+		return ordenesExportacionManager.ordenExportaciones();
 	}
 
-	public HashSet<OrdenImportacion> getOrdenImportaciones() {
-		return ordenImportaciones;
+	public List<OrdenImportacion> getOrdenImportaciones() {
+		return ordenesImportacionManager.ordenImportaciones();
 	}
 
 	public void notificarSobreLlegadaInminente(Buque buque) {
-		notificarPorEmail(buque, ordenImportaciones, this::enviarMailLlegadaInminenteACliente);
+		notificarPorEmail(buque, getOrdenImportaciones(), this::mailLlegadaInminenteACliente);
 	}
 
 	public void notificarDesembarque(Buque buque) {
-		notificarPorEmail(buque, ordenExportaciones, this::enviarMailDesembarco);
+		notificarPorEmail(buque, getOrdenExportaciones(), this::mailDesembarco);
+	}
+	
+	public List<Orden> getOrdenesExportacionRetiradas() {
+		return ordenesExportacionManager.ordenExportacionesRetiradas();
+	}
+	
+	public List<Orden> getOrdenesImportacionRetiradas() {
+		return ordenesImportacionManager.ordenImportacionesRetiradas();
 	}
 
-	public void notificarPorEmail(Buque buque, HashSet<? extends Orden> ordenes, Function<Cliente, Mail> mapperDeEmail) {
+	public void notificarPorEmail(Buque buque, List<? extends Orden> ordenes, Function<Cliente, Mail> mapperDeEmail) {
 		ordenes.stream().filter(orden -> {
 			Viaje viaje = orden.getViajeActual();
 			return viaje.getBuque() == buque;
@@ -199,12 +176,12 @@ public class TerminalPortuaria {
 				.forEach(mail -> mailManager.enviarMail(mail));
 	}
 
-	private Mail enviarMailLlegadaInminenteACliente(Cliente cliente) {
+	private Mail mailLlegadaInminenteACliente(Cliente cliente) {
 		return new Mail("Tu pedido está llegando a la terminal", cliente.getEmail(),
 				"Tu pedido se encuentra a menos de 50km de la terminal. Acércate en breves para reclamarlo");
 	}
 
-	private Mail enviarMailDesembarco(Cliente cliente) {
+	private Mail mailDesembarco(Cliente cliente) {
 		return new Mail("Tu pedido ha salido de la terminal", cliente.getEmail(),
 				"Tu pedido ha zarpado de la terminal y se encuentra a más de un kilómetro de distancia. Mantente al tanto sobre el estado del viaje");
 	}
