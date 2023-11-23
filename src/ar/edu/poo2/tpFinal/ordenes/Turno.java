@@ -3,6 +3,7 @@ package ar.edu.poo2.tpFinal.ordenes;
 import java.time.LocalDateTime;
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
+import ar.edu.poo2.tpFinal.EntregaTerrestre;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
 import ar.edu.poo2.tpFinal.clientes.Cliente;
 
@@ -53,6 +54,23 @@ public class Turno {
 
 	public final LocalDateTime getFechaConHorarioLimite() {
 		return getFechaRecepcion().plusHours(cantidadHorasMargenAtraso);
+	}
+
+	public void proseguirImportacionConEntrega(EntregaTerrestre et, OrdenesImportacionManager ordenesImportacionManager) {
+		getCliente().cobrarMonto(getOrden().getFactura().getMontoTotalFacturado(getOrden()));
+		ordenesImportacionManager.importacionRealizada(et.getTurno(), et.getTurno().getOrden());
+	}
+	
+	public void proseguirExportacionConEntrega(EntregaTerrestre et, OrdenesExportacionManager ordenesExportacionManager) {
+		getCliente().cobrarMonto(getOrden().getFactura().getMontoTotalFacturado(getOrden()));
+		ordenesExportacionManager.exportacionRealizada(et.getTurno(), et.getTurno().getOrden());
+	}
+
+	public boolean esTurnoValidoParaEntregaTerrestre(EntregaTerrestre entregaTerrestre) {
+		return getCamion().equals(entregaTerrestre.getCamion()) 
+				&& getChofer() == entregaTerrestre.getChofer() 
+				&& estaAHorario(entregaTerrestre.getHorarioArribo())
+				&& entregaTerrestre.getTurno().equals(this);
 	}
 
 }

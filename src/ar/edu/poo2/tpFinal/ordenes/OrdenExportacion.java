@@ -11,12 +11,12 @@ public class OrdenExportacion extends Orden {
 	private FacturaSimple factura;
 
 	public OrdenExportacion(Shipper client, Container cont, Camion cam, Chofer chofer, Viaje viaje, FacturaSimple fact) {
-		super(client, cont, cam, chofer, viaje);
+		super(client, cont, cam, chofer, viaje, viaje.getOrigen());
 		this.factura = fact;
 	}
 
 	@Override
-	public FacturaSimple getFactura() {
+	public Factura getFactura() {
 		return factura;
 	}
 

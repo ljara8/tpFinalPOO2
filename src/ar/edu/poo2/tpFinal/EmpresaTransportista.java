@@ -27,7 +27,7 @@ public class EmpresaTransportista {
 		return this.camiones.stream().anyMatch(c->c.equals(camion));
 	}
 	
-	public boolean estaChofernEnEmpresa(Chofer chofer) {
+	public boolean estaChoferEnEmpresa(Chofer chofer) {
 		return this.choferes.stream().anyMatch(c->c.equals(chofer));
 	}
 	

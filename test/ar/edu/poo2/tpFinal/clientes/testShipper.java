@@ -1,7 +1,5 @@
 package ar.edu.poo2.tpFinal.clientes;
 
-
-
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyDouble;
@@ -11,7 +9,14 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ar.edu.poo2.tpFinal.Camion;
+import ar.edu.poo2.tpFinal.Chofer;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.TerminalPortuaria;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
 import ar.edu.poo2.tpFinal.clientes.*;
+import ar.edu.poo2.tpFinal.contyserv.Container;
+import ar.edu.poo2.tpFinal.ordenes.FacturaResponsableViaje;
+import ar.edu.poo2.tpFinal.ordenes.FacturaSimple;
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
 
@@ -21,73 +26,62 @@ class testShipper {
 	private OrdenImportacion orden2;
 	private Exception excepcion = new Exception("No puede abonar una orden de importacion");
 	private String nombre = "Lucio Jara";
-	private String nombre2 = "Lionel Messi";
+	private String nombre2 = "Lucio Jara Messi";
 	private String email = "luciojara@gmail.com";
-	private String email2 = "liomessi@gmail.com";
-
+	private String email2 = "luciojara@hotmail.com";
+	private Container cont;
+	private Camion cam;
+	private Chofer chofer;
+	private Viaje viaje;
+	private FacturaSimple fact;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		shipper = mock(Shipper.class);
-		orden = mock(OrdenExportacion.class);
-		orden2 = mock(OrdenImportacion.class);
-	}
-
-	@Test
-	void testAbonar() throws Exception {
-		when(shipper.abonarFacturacion(orden)).thenReturn(50340.3);
-		when(shipper.abonarFacturacion(orden2)).thenReturn(anyDouble());
-		
-		assertNotEquals(shipper.abonarFacturacion(orden),shipper.abonarFacturacion(orden2) );
+		shipper = new Shipper(email, nombre, orden);
+		viaje = mock(Viaje.class);
+		when(viaje.getOrigen()).thenReturn(mock(TerminalPortuaria.class));
+		orden = new OrdenExportacion(shipper, cont, cam, chofer, viaje, fact);
+		cont = mock(Container.class);
+		cam = mock(Camion.class);
+		chofer = mock(Chofer.class);
+		viaje = mock(Viaje.class);
+		fact = mock(FacturaSimple.class);
 	}
 
 	@Test
 	void testExcepcionAbonar() throws Exception {
-		when(shipper.abonarFacturacion(orden2)).thenThrow(excepcion);
-		
-		assertThrowsExactly(Exception.class, () -> shipper.abonarFacturacion(orden2));
-	
-	}
 
-	@Test
-	void testGetOrden() throws Exception {
-		when(shipper.getOrdenExp()).thenReturn(orden);
-		
-		assertEquals(shipper.getOrdenExp(), orden);
+		assertThrowsExactly(Exception.class, () -> shipper.abonarFacturacion(orden2));
+
 	}
 
 	@Test
 	void testGetOrdenFalse() throws Exception {
-		when(shipper.getOrdenExp()).thenReturn(orden);
-		
-		assertNotEquals(shipper.getOrdenExp(), orden2);
+
+		assertNotEquals(shipper.getOrdenExp(), orden);
 	}
-	
-	@Test 
+
+	@Test
 	void testGetNombreFalse() {
-		when(shipper.nombreCompleto()).thenReturn(nombre);
-		
+
 		assertNotEquals(nombre2, shipper.nombreCompleto());
 	}
-	
-	@Test 
+
+	@Test
 	void testGetNombre() {
-		when(shipper.nombreCompleto()).thenReturn(nombre);
-		
+
 		assertEquals(nombre, shipper.nombreCompleto());
 	}
 
-	@Test 
+	@Test
 	void testGetEmail() {
-		when(shipper.getEmail()).thenReturn(email);
-		
+
 		assertEquals(email, shipper.getEmail());
 	}
 
-	@Test 
+	@Test
 	void testGetEmailFalse() {
-		when(shipper.getEmail()).thenReturn(email);
-		
+
 		assertNotEquals(email2, shipper.getEmail());
 	}
 

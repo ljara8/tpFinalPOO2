@@ -58,13 +58,13 @@ class EmpresaTransportistaTest {
 	@Test
 	void TestTieneChofer() {
 		
-		assertTrue(empresa.estaChofernEnEmpresa(chofer1));
+		assertTrue(empresa.estaChoferEnEmpresa(chofer1));
 	}
 	
 	@Test
 	void TestNoTieneChofer() {
 		
-		assertFalse(empresa.estaChofernEnEmpresa(chofer3));
+		assertFalse(empresa.estaChoferEnEmpresa(chofer3));
 	}
 	
 	@Test
