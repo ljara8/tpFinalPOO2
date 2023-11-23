@@ -31,10 +31,11 @@ class testFacturaResponsable {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		viaje = mock(Viaje.class);
+		when(viaje.getOrigen()).thenReturn(mock(TerminalPortuaria.class));
 		fact = new FacturaResponsableViaje(orden);
 		orden = new OrdenImportacion(cliente, cont, cam, chofer, viaje, fact);
 		orden2 = mock(OrdenImportacion.class);
-
 	}
 
 	@Test

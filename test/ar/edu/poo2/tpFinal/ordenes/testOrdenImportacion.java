@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.TerminalPortuaria;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
 import ar.edu.poo2.tpFinal.clientes.Consignee;
 import ar.edu.poo2.tpFinal.clientes.Shipper;
@@ -33,7 +34,8 @@ class testOrdenImportacion {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		
+		viaje = mock(Viaje.class);
+		when(viaje.getDestino()).thenReturn(mock(TerminalPortuaria.class));
 		fact = new FacturaResponsableViaje(orden);
 		fact2 = new FacturaResponsableViaje(orden);
 		orden = new OrdenImportacion(cliente, cont, cam, chofer, viaje, fact);

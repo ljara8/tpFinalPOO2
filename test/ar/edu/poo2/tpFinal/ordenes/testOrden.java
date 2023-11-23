@@ -35,6 +35,8 @@ class testOrden {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		viajeActual = mock(Viaje.class);
+		when(viajeActual.getDestino()).thenReturn(mock(TerminalPortuaria.class));
 		orden = new OrdenImportacion(cliente, cont, camion, chofer, viajeActual, fact);
 		orden2 = mock(OrdenImportacion.class);
 		chofer2 = mock(Chofer.class);

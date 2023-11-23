@@ -44,6 +44,8 @@ class testDesglose {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		viaje = mock(Viaje.class);
+		when(viaje.getOrigen()).thenReturn(mock(TerminalPortuaria.class));
 		desglose = new Desglose(orden);
 		orden = new OrdenImportacion(cliente, cont, cam, chofer, viaje, fact);
 		orden2 = mock(Orden.class);

@@ -46,6 +46,8 @@ class testTurno {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		viaje = mock(Viaje.class);
+		when(viaje.getOrigen()).thenReturn(mock(TerminalPortuaria.class));
 		fechaRecepcion = mock(LocalDateTime.class);
 		fechaRecepcion2 = mock(LocalDateTime.class);
 		camion = mock(Camion.class);
@@ -181,7 +183,7 @@ class testTurno {
 
 	@Test
 	void testViaje() {
-
+		when(turno.getViaje()).thenReturn(viaje);
 		assertEquals(turno.getViaje(), viaje);
 	}
 

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.TerminalPortuaria;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
 import ar.edu.poo2.tpFinal.clientes.*;
 import ar.edu.poo2.tpFinal.contyserv.Container;
@@ -37,6 +38,8 @@ class testShipper {
 	@BeforeEach
 	void setUp() throws Exception {
 		shipper = new Shipper(email, nombre, orden);
+		viaje = mock(Viaje.class);
+		when(viaje.getOrigen()).thenReturn(mock(TerminalPortuaria.class));
 		orden = new OrdenExportacion(shipper, cont, cam, chofer, viaje, fact);
 		cont = mock(Container.class);
 		cam = mock(Camion.class);

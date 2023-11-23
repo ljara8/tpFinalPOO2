@@ -34,6 +34,8 @@ class testFacturaSimple {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		viaje = mock(Viaje.class);
+		when(viaje.getOrigen()).thenReturn(mock(TerminalPortuaria.class));
 		fact = new FacturaSimple(orden);
 		orden = new OrdenExportacion(cliente, cont, cam, chofer, viaje, fact);
 		orden2 = mock(OrdenExportacion.class);

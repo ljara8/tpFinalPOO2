@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.TerminalPortuaria;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
 import ar.edu.poo2.tpFinal.clientes.Consignee;
 import ar.edu.poo2.tpFinal.contyserv.Container;
@@ -39,6 +40,8 @@ class TestServicioLavado {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		viaje = mock(Viaje.class);
+		when(viaje.getOrigen()).thenReturn(mock(TerminalPortuaria.class));
 		orden = new OrdenImportacion(cliente, cont, cam, chofer, viaje, fact);
 		costoLavadoPromedio = 912.18;
 
