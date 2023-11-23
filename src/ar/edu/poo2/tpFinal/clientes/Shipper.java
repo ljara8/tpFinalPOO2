@@ -1,3 +1,4 @@
+
 package ar.edu.poo2.tpFinal.clientes;
 
 import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
@@ -8,7 +9,7 @@ public class Shipper implements Cliente{
 	private String nombre;
 	private OrdenExportacion ordenExp;
 
-	public Shipper(String email, String nomb, OrdenExportacion orden) {
+	Shipper(String email, String nomb, OrdenExportacion orden) {
 		this.email = email;
 		this.nombre = nomb;
 		this.ordenExp = orden;
@@ -38,4 +39,10 @@ public class Shipper implements Cliente{
 	public OrdenExportacion getOrdenExp() {
 		return ordenExp;
 	}
+
+	@Override
+	public void cobrarMonto(double monto) {
+		// Método dummy
+	}
+
 }
