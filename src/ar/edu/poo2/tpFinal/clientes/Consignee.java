@@ -39,4 +39,9 @@ public class Consignee implements Cliente {
 		return ordenImp;
 	}
 
+	@Override
+	public void cobrarMonto(double monto) {
+		// Método dummy
+	}
+
 }
