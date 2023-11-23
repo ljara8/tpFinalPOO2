@@ -12,24 +12,14 @@ public class OrdenesImportacionManager {
 	
 	public Turno encontrarTurnoPorEntregaTerrestre(EntregaTerrestre entregaTerrestre) throws IllegalAccessException {
 		return turnosImportaciones.stream()
-				.filter( turno -> 
-				turno.getCamion().equals(entregaTerrestre.getCamion()) 
-				&& turno.getChofer() == entregaTerrestre.getChofer() 
-				&& turno.estaAHorario(entregaTerrestre.getHorarioArribo())
-				&& turno.equals(entregaTerrestre.getTurno())
-			)
+				.filter(turno -> turno.esTurnoValidoParaEntregaTerrestre(entregaTerrestre))
 			.findFirst()
 			.orElseThrow(() -> new IllegalAccessException("Su entrega no es válida. No cumple los parámetros de seguridad."));
 	}
 	
 	public boolean tieneTurnoQueCoincidaConEntregaTerrestre(EntregaTerrestre entregaTerrestre) {
 		return !turnosImportaciones.stream()
-				.filter( turno -> 
-				turno.getCamion().equals(entregaTerrestre.getCamion()) 
-				&& turno.getChofer() == entregaTerrestre.getChofer() 
-				&& turno.estaAHorario(entregaTerrestre.getHorarioArribo())
-				&& turno.equals(entregaTerrestre.getTurno())
-			).toList().isEmpty();
+				.filter( turno -> turno.esTurnoValidoParaEntregaTerrestre(entregaTerrestre)).toList().isEmpty();
 	}
 
 	public void importacionRealizada(Turno turno, Orden orden) {

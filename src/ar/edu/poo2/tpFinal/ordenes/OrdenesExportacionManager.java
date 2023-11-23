@@ -19,12 +19,8 @@ public class OrdenesExportacionManager {
 	
 	public boolean tieneTurnoQueCoincidaConEntregaTerrestre(EntregaTerrestre entregaTerrestre) {
 		return !turnosExportaciones.stream()
-				.filter( turno -> 
-				turno.getCamion().equals(entregaTerrestre.getCamion()) 
-				&& turno.getChofer() == entregaTerrestre.getChofer() 
-				&& turno.estaAHorario(entregaTerrestre.getHorarioArribo())
-				&& turno.equals(entregaTerrestre.getTurno())
-			).toList().isEmpty();
+				.filter(turno -> turno.esTurnoValidoParaEntregaTerrestre(entregaTerrestre))
+				.toList().isEmpty();
 	}
 
 	public void exportacionRealizada(Turno turno, Orden orden) {

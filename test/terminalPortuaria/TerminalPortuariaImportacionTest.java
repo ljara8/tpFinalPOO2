@@ -31,7 +31,7 @@ public class TerminalPortuariaImportacionTest {
 	private Camion camion;
 	private Factura factura;
 	private Turno turno;
-	private OrdenImportacion oredenImportacion;
+	private OrdenImportacion ordenImportacion;
 	
 	@BeforeEach
 	void setUp() {
@@ -41,7 +41,7 @@ public class TerminalPortuariaImportacionTest {
 		camion = mock(Camion.class);
 		factura = mock(Factura.class);
 		turno = mock(Turno.class);
-		oredenImportacion = mock(OrdenImportacion.class);
+		ordenImportacion = mock(OrdenImportacion.class);
 	}
 
 	@Test
@@ -56,21 +56,21 @@ public class TerminalPortuariaImportacionTest {
 	@Test
 	void testSeQuiereExportarPeroNoCoincideCamionero() {
 		when(factura.getMontoTotalFacturado(any())).thenReturn(0d);
-		when(oredenImportacion.getCamion()).thenReturn(camion);
-		when(oredenImportacion.getChofer()).thenReturn(chofer);
-		when(oredenImportacion.getFactura()).thenReturn(factura);
-		when(oredenImportacion.getCliente()).thenReturn(mock(Cliente.class));
+		when(ordenImportacion.getCamion()).thenReturn(camion);
+		when(ordenImportacion.getChofer()).thenReturn(chofer);
+		when(ordenImportacion.getFactura()).thenReturn(factura);
+		when(ordenImportacion.getCliente()).thenReturn(mock(Cliente.class));
 		
 		when(entregaTerrestre.getCamion()).thenReturn(mock(Camion.class));
 		when(entregaTerrestre.getChofer()).thenReturn(chofer);
 		
-		Turno turnoDeExportacion = terminalPortuaria.registrarOrdenImportacion(oredenImportacion);
+		Turno turnoDeExportacion = terminalPortuaria.registrarOrdenImportacion(ordenImportacion);
 		LocalDateTime fechaDeArribo = mock(LocalDateTime.class);
 		
 		when(fechaDeArribo.minusHours(anyLong())).thenReturn(fechaDeArribo);
 		when(fechaDeArribo.plusHours(anyLong())).thenReturn(fechaDeArribo);
 		when(entregaTerrestre.getTurno()).thenReturn(turnoDeExportacion);
-		when(oredenImportacion.getFechaLlegadaADestino()).thenReturn(fechaDeArribo);
+		when(ordenImportacion.getFechaLlegadaADestino()).thenReturn(fechaDeArribo);
 		when(entregaTerrestre.getHorarioArribo()).thenReturn(fechaDeArribo);
 		when(fechaDeArribo.isBefore(any())).thenReturn(true);
 		
@@ -80,21 +80,21 @@ public class TerminalPortuariaImportacionTest {
 	@Test
 	void testSeQuiereExportarConTurnoCorrecto() {
 		when(factura.getMontoTotalFacturado(any())).thenReturn(0d);
-		when(oredenImportacion.getCamion()).thenReturn(camion);
-		when(oredenImportacion.getChofer()).thenReturn(chofer);
-		when(oredenImportacion.getFactura()).thenReturn(factura);
-		when(oredenImportacion.getCliente()).thenReturn(mock(Cliente.class));
+		when(ordenImportacion.getCamion()).thenReturn(camion);
+		when(ordenImportacion.getChofer()).thenReturn(chofer);
+		when(ordenImportacion.getFactura()).thenReturn(factura);
+		when(ordenImportacion.getCliente()).thenReturn(mock(Cliente.class));
 		
 		when(entregaTerrestre.getCamion()).thenReturn(camion);
 		when(entregaTerrestre.getChofer()).thenReturn(chofer);
 		
-		Turno turnoDeExportacion = terminalPortuaria.registrarOrdenImportacion(oredenImportacion);
+		Turno turnoDeExportacion = terminalPortuaria.registrarOrdenImportacion(ordenImportacion);
 		LocalDateTime fechaDeArribo = mock(LocalDateTime.class);
 		
 		when(fechaDeArribo.minusHours(anyLong())).thenReturn(fechaDeArribo);
 		when(fechaDeArribo.plusHours(anyLong())).thenReturn(fechaDeArribo);
 		when(entregaTerrestre.getTurno()).thenReturn(turnoDeExportacion);
-		when(oredenImportacion.getFechaLlegadaADestino()).thenReturn(fechaDeArribo);
+		when(ordenImportacion.getFechaLlegadaADestino()).thenReturn(fechaDeArribo);
 		when(entregaTerrestre.getHorarioArribo()).thenReturn(fechaDeArribo);
 		when(fechaDeArribo.isBefore(any())).thenReturn(true);
 		
@@ -104,21 +104,21 @@ public class TerminalPortuariaImportacionTest {
 	@Test
 	void testSeQuiereExportarPeroSeLlegaTarde() {
 		when(factura.getMontoTotalFacturado(any())).thenReturn(0d);
-		when(oredenImportacion.getCamion()).thenReturn(camion);
-		when(oredenImportacion.getChofer()).thenReturn(chofer);
-		when(oredenImportacion.getFactura()).thenReturn(factura);
-		when(oredenImportacion.getCliente()).thenReturn(mock(Cliente.class));
+		when(ordenImportacion.getCamion()).thenReturn(camion);
+		when(ordenImportacion.getChofer()).thenReturn(chofer);
+		when(ordenImportacion.getFactura()).thenReturn(factura);
+		when(ordenImportacion.getCliente()).thenReturn(mock(Cliente.class));
 		
 		when(entregaTerrestre.getCamion()).thenReturn(camion);
 		when(entregaTerrestre.getChofer()).thenReturn(chofer);
 		
-		Turno turnoDeExportacion = terminalPortuaria.registrarOrdenImportacion(oredenImportacion);
+		Turno turnoDeExportacion = terminalPortuaria.registrarOrdenImportacion(ordenImportacion);
 		LocalDateTime fechaDeArribo = mock(LocalDateTime.class);
 		
 		when(fechaDeArribo.minusHours(anyLong())).thenReturn(fechaDeArribo);
 		when(fechaDeArribo.plusHours(anyLong())).thenReturn(fechaDeArribo);
 		when(entregaTerrestre.getTurno()).thenReturn(turnoDeExportacion);
-		when(oredenImportacion.getFechaLlegadaADestino()).thenReturn(fechaDeArribo);
+		when(ordenImportacion.getFechaLlegadaADestino()).thenReturn(fechaDeArribo);
 		when(entregaTerrestre.getHorarioArribo()).thenReturn(fechaDeArribo);
 		when(fechaDeArribo.isBefore(any())).thenReturn(false);
 		
