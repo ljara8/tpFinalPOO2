@@ -26,7 +26,6 @@ import ar.edu.poo2.tpFinal.seleccionadorCircuito.SeleccionadorCircuito;
 public class TerminalPortuaria {
 
 	private MailManager mailManager;
-	private BusquedaMaritima busquedaMaritima;
 	private SeleccionadorCircuito seleccionadorCircuito;
 	private List<Naviera> navieras = new ArrayList<Naviera>();
 	private List<Shipper> shippers = new ArrayList<Shipper>();
@@ -41,6 +40,11 @@ public class TerminalPortuaria {
 	private List<Orden> ordenImportacionesRetiradas = new ArrayList<Orden>();
 	private List<Turno> turnosImportaciones = new ArrayList<>();
 	private List<Turno> turnosExportaciones = new ArrayList<>();
+
+	public TerminalPortuaria(MailManager mailManager, SeleccionadorCircuito seleccionadorCircuito) {
+		this.mailManager = mailManager;
+		this.seleccionadorCircuito = seleccionadorCircuito;
+	}
 
 	public void registrarNaviera(Naviera n) {
 		navieras.add(n);
@@ -74,10 +78,6 @@ public class TerminalPortuaria {
 		this.seleccionadorCircuito = seleccionadorCircuito;
 	}
 
-	public void setBusquedaMaritima(BusquedaMaritima busquedaMaritima) {
-		this.busquedaMaritima = busquedaMaritima;
-	}
-
 	public List<Viaje> viajesQueCoincidenConBusqueda(BusquedaMaritima busquedaMaritima) {
 		List<Viaje> todosLosViajes = navieras.stream().flatMap(naviera -> naviera.getViajes().stream()).toList();
 		return todosLosViajes.stream().filter(viaje -> busquedaMaritima.evaluar(viaje)).toList();
@@ -98,8 +98,7 @@ public class TerminalPortuaria {
 					// tarda en la suma de los tramos
 	}
 
-//TEMPLATE METHOD
-	public void exportar(EntregaTerrestre et) {
+	public void exportar(EntregaTerrestre et) throws IllegalAccessException {
 		Turno turnoDeExportador = 
 				turnosExportaciones.stream()
 					.filter( turno -> 
@@ -109,14 +108,14 @@ public class TerminalPortuaria {
 						&& turno.equals(et.getTurno())
 					)
 					.findFirst()
-					.orElseThrow(() -> new IllegalAccessError("Su entrega no es válida. No cumple los parámetros de seguridad."));
+					.orElseThrow(() -> new IllegalAccessException("Su entrega no es válida. No cumple los parámetros de seguridad."));
 		turnoDeExportador.getCliente().cobrarMonto(turnoDeExportador.getOrden().getFactura().getMontoTotalFacturado(turnoDeExportador.getOrden()));
 		turnosExportaciones.remove(turnoDeExportador);
 		ordenExportaciones.remove(turnoDeExportador.getOrden());
 		ordenExportacionesRetiradas.add(turnoDeExportador.getOrden());
 	}
 
-	public void importar(EntregaTerrestre et) {
+	public void importar(EntregaTerrestre et) throws IllegalAccessException {
 		Turno turnoDeImportador = 
 				turnosImportaciones.stream()
 					.filter( turno -> 
@@ -126,7 +125,7 @@ public class TerminalPortuaria {
 						&& turno.equals(et.getTurno())
 					)
 					.findFirst()
-					.orElseThrow(() -> new IllegalAccessError("Su entrega no es válida. No cumple los parámetros de seguridad."));
+					.orElseThrow(() -> new IllegalAccessException("Su entrega no es válida. No cumple los parámetros de seguridad."));
 		turnoDeImportador.getCliente().cobrarMonto(turnoDeImportador.getOrden().getFactura().getMontoTotalFacturado(turnoDeImportador.getOrden()));
 		turnosExportaciones.remove(turnoDeImportador);
 		ordenExportaciones.remove(turnoDeImportador.getOrden());
