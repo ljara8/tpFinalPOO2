@@ -184,11 +184,11 @@ public class TerminalPortuaria {
 	}
 
 	public void notificarSobreLlegadaInminente(Buque buque) {
-		notificarPorEmail(buque, ordenImportaciones, this::enviarMailLlegadaInminenteACliente);
+		notificarPorEmail(buque, ordenImportaciones, this::mailLlegadaInminenteACliente);
 	}
 
 	public void notificarDesembarque(Buque buque) {
-		notificarPorEmail(buque, ordenExportaciones, this::enviarMailDesembarco);
+		notificarPorEmail(buque, ordenExportaciones, this::mailDesembarco);
 	}
 
 	public void notificarPorEmail(Buque buque, HashSet<? extends Orden> ordenes, Function<Cliente, Mail> mapperDeEmail) {
@@ -199,12 +199,12 @@ public class TerminalPortuaria {
 				.forEach(mail -> mailManager.enviarMail(mail));
 	}
 
-	private Mail enviarMailLlegadaInminenteACliente(Cliente cliente) {
+	private Mail mailLlegadaInminenteACliente(Cliente cliente) {
 		return new Mail("Tu pedido está llegando a la terminal", cliente.getEmail(),
 				"Tu pedido se encuentra a menos de 50km de la terminal. Acércate en breves para reclamarlo");
 	}
 
-	private Mail enviarMailDesembarco(Cliente cliente) {
+	private Mail mailDesembarco(Cliente cliente) {
 		return new Mail("Tu pedido ha salido de la terminal", cliente.getEmail(),
 				"Tu pedido ha zarpado de la terminal y se encuentra a más de un kilómetro de distancia. Mantente al tanto sobre el estado del viaje");
 	}
