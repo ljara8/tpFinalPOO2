@@ -65,6 +65,12 @@ class CircuitoMaritimoTest {
 		
 		assertEquals(5, circuito.getCantidadTotalTerminales());
 	}
+
+	@Test
+	void testTieneTerminalEnTrayecto() {
+		
+		assertTrue(circuito.tieneTerminalEnTrayecto(cuartaTerminal));
+	}
 	
 	@Test
 	void testTieneTrayectoEntreTerminales() {
