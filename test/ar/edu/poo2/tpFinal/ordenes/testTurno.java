@@ -14,7 +14,6 @@ import ar.edu.poo2.tpFinal.Camion;
 import ar.edu.poo2.tpFinal.Chofer;
 import ar.edu.poo2.tpFinal.CircuitosNaviera.*;
 import ar.edu.poo2.tpFinal.clientes.Cliente;
-import ar.edu.poo2.tpFinal.ordenes.OrdenExportacion;
 import ar.edu.poo2.tpFinal.ordenes.Turno;
 
 class testTurno {
@@ -112,4 +111,5 @@ class testTurno {
 		
 		assertNotEquals(turno.getViaje(), viaje2);
 	}
+
 }

@@ -13,7 +13,7 @@ public class FacturaResponsableViaje extends FacturaSimple {
 	}
 
 	@Override
-	public double getMontoTotalFacturado(Orden orden) throws Exception {
+	public double getMontoTotalFacturado(Orden orden) {
 		return orden.getServiciosContratados().stream().mapToDouble(s -> s.montoTotal(orden)).sum()
 				+ orden.getViajeActual().getCircuito().getPrecioTotalRecorrido();
 	}

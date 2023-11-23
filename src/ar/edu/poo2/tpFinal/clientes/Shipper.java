@@ -38,4 +38,9 @@ public class Shipper implements Cliente{
 	public OrdenExportacion getOrdenExp() {
 		return ordenExp;
 	}
+
+	@Override
+	public void cobrarMonto(double monto) {
+		// Método dummy
+	}
 }

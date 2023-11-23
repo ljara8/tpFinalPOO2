@@ -1,12 +1,15 @@
 package tpFinalPOO2tpFinal;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 
@@ -136,5 +139,19 @@ class NavieraTest {
 		when(viaje1.fechaLlegadaATerminal(segundaTerminal)).thenThrow(NoSuchElementException.class);
 		
 		assertThrowsExactly(NoSuchElementException.class, () -> naviera.proximaFechaDeLlegadaADestino(primeraTerminal, segundaTerminal));
+	}
+	
+	@Test
+	void testCircuitosQuePasanPorTerminales() {
+		List<CircuitoMaritimo> circuitosEsperados = new ArrayList<CircuitoMaritimo>();
+		circuitosEsperados.add(primerCircuito);
+		circuitosEsperados.add(segundoCircuito);
+		
+		when(primerCircuito.tieneTrayectoEntreTerminales(primeraTerminal, terceraTerminal)).thenReturn(true);
+		when(segundoCircuito.tieneTrayectoEntreTerminales(primeraTerminal, terceraTerminal)).thenReturn(true);
+		
+		List<CircuitoMaritimo> resultado = naviera.circuitosQuePasanPorTerminales(primeraTerminal, terceraTerminal);
+		
+		assertTrue(resultado.containsAll(circuitosEsperados));
 	}
 }
