@@ -10,13 +10,13 @@ import ar.edu.poo2.tpFinal.contyserv.Container;
 public class OrdenExportacion extends Orden {
 	private FacturaSimple factura;
 
-	OrdenExportacion(Shipper client, Container cont, Camion cam, Chofer chofer, Viaje viaje, FacturaSimple fact) {
+	public OrdenExportacion(Shipper client, Container cont, Camion cam, Chofer chofer, Viaje viaje, FacturaSimple fact) {
 		super(client, cont, cam, chofer, viaje);
 		this.factura = fact;
 	}
 
 	@Override
-	public Factura getFactura() {
+	public FacturaSimple getFactura() {
 		return factura;
 	}
 

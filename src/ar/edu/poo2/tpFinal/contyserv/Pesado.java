@@ -7,10 +7,9 @@ public class Pesado extends Servicio {
 	private double costoFijo;
 	private double pesoRegistrado;
 
-	Pesado(Container cont, double costo, int peso) {
+	public Pesado(Container cont, double costo) {
 		this.cont = cont;
 		this.costoFijo = costo;
-		this.pesoRegistrado = cont.getPeso();
 	}
 
 	@Override
@@ -18,7 +17,7 @@ public class Pesado extends Servicio {
 		return costoFijo;
 	}
 
-	public void setPesoRegistrado(int pesoRegistrado) {
+	public void setPesoRegistrado(double pesoRegistrado) {
 		this.pesoRegistrado = pesoRegistrado;
 	}
 

@@ -7,48 +7,64 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ar.edu.poo2.tpFinal.Camion;
+import ar.edu.poo2.tpFinal.Chofer;
+import ar.edu.poo2.tpFinal.CircuitosNaviera.Viaje;
+import ar.edu.poo2.tpFinal.clientes.Consignee;
+import ar.edu.poo2.tpFinal.contyserv.Container;
+import ar.edu.poo2.tpFinal.contyserv.Excedente;
 import ar.edu.poo2.tpFinal.contyserv.Lavado;
+import ar.edu.poo2.tpFinal.ordenes.FacturaResponsableViaje;
 import ar.edu.poo2.tpFinal.ordenes.Orden;
+import ar.edu.poo2.tpFinal.ordenes.OrdenImportacion;
 
 class TestServicioLavado {
-	private Lavado lavado;
-	private Orden orden;
+
+	private OrdenImportacion orden;
 	private double costoLavadoPromedio;
+	private double costoFijo;
+
+	private Consignee cliente;
+
+	private Camion cam;
+	private Chofer chofer;
+	private Viaje viaje;
+	private FacturaResponsableViaje fact;
+	private int ancho = 50;
+	private int largo = 20;
+	private int altura = 30;
+	private double peso = 100;
+	private Container cont;
+	private Lavado lavado;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		lavado = mock(Lavado.class);
-		orden = mock(Orden.class);
+		orden = new OrdenImportacion(cliente, cont, cam, chofer, viaje, fact);
 		costoLavadoPromedio = 912.18;
+
+		cont = new Container(ancho, largo, altura, peso);
+		lavado = new Lavado(cont, costoFijo);
 	}
 
 	@Test
 	void testSuperaCapacidad() {
-		when(lavado.superaLaCapacidad()).thenReturn(true);
 		assertTrue(lavado.superaLaCapacidad());
 	}
 
 	@Test
-	void testNoSuperaCapacidad() {
-		when(lavado.superaLaCapacidad()).thenReturn(false);
-		assertFalse(lavado.superaLaCapacidad());
-	}
-
-	@Test
 	void testMontoTotalSegunCapacidadMenorAPromedio() {
-		when(lavado.montoTotal(orden)).thenReturn(700.5);
+		costoLavadoPromedio = 10000;
 		assertTrue(lavado.montoTotal(orden) < costoLavadoPromedio);
 	}
 
 	@Test
 	void testMontoTotalSegunCapacidadIgualAPromedio() {
-		when(lavado.montoTotal(orden)).thenReturn(912.18);
-		assertTrue(lavado.montoTotal(orden) == costoLavadoPromedio);
+		costoLavadoPromedio = 1000;
+		assertEquals(lavado.montoTotal(orden), costoLavadoPromedio);
 	}
 
 	@Test
 	void testMontoTotalSegunCapacidadMayorAPromedio() {
-		when(lavado.montoTotal(orden)).thenReturn(1000.5);
 		assertTrue(lavado.montoTotal(orden) > costoLavadoPromedio);
 	}
 
