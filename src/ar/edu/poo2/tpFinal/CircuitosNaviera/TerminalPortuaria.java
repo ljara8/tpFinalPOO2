@@ -172,8 +172,11 @@ public class TerminalPortuaria {
 		ordenes.stream().filter(orden -> {
 			Viaje viaje = orden.getViajeActual();
 			return viaje.getBuque() == buque;
-		}).map(orden -> orden.getCliente()).map(cliente -> mapperDeEmail.apply(cliente))
-				.forEach(mail -> mailManager.enviarMail(mail));
+		}).forEach(orden -> { 
+				Cliente cliente = orden.getCliente();
+				mailManager.enviarMailConFactura(mapperDeEmail.apply(cliente), orden.getFactura());
+			}
+		);
 	}
 
 	private Mail mailLlegadaInminenteACliente(Cliente cliente) {
